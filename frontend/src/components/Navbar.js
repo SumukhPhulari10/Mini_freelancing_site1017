@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, User, Briefcase, MessageSquare, Home, PlusCircle } from 'lucide-react';
 import Button from './Button';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navItems = [
     { name: 'Home', icon: Home, href: '#home' },
@@ -15,11 +18,19 @@ const Navbar = () => {
   ];
 
   const handleNavClick = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate(href);
     }
     setIsMobileMenuOpen(false);
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
   };
 
   return (
@@ -59,8 +70,8 @@ const Navbar = () => {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="secondary">Login</Button>
-            <Button>Sign Up</Button>
+            <Button variant="secondary" onClick={handleLogin}>Login</Button>
+            <Button onClick={handleLogin}>Sign Up</Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -101,8 +112,8 @@ const Navbar = () => {
                   </motion.button>
                 ))}
                 <div className="flex flex-col space-y-2 pt-4 border-t border-gray-200">
-                  <Button variant="secondary" className="w-full">Login</Button>
-                  <Button className="w-full">Sign Up</Button>
+                  <Button variant="secondary" className="w-full" onClick={handleLogin}>Login</Button>
+                  <Button className="w-full" onClick={handleLogin}>Sign Up</Button>
                 </div>
               </div>
             </motion.div>
