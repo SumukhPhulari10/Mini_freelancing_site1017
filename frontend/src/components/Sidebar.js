@@ -10,9 +10,7 @@ import {
   MessageSquare, 
   Settings, 
   LogOut,
-  User,
-  BarChart3,
-  TrendingUp
+  User
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 

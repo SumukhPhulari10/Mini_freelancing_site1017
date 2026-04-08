@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Mail, Phone, MapPin, Briefcase, Edit2, Save, X, Plus, Star, FileText, ExternalLink } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Star, Calendar, Award, CheckCircle } from 'lucide-react';
 import Button from '../components/Button';
 import { useAuth } from '../contexts/AuthContext';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, TrendingDown, Users, Briefcase, DollarSign, FileText, Eye } from 'lucide-react';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 const DashboardCard = ({ 
   title, 
