@@ -126,31 +126,37 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
+      {/* Background Effects */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-500/10 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full filter blur-3xl animate-pulse animation-delay-2000"></div>
+      </div>
+
       <motion.div
-        className="w-full max-w-md"
+        className="w-full max-w-2xl relative z-10"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="glass-card rounded-3xl shadow-glow p-8 border border-gray-800/50">
           {/* Logo */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-primary-600 mb-2">
-              Mini<span className="text-primary-800">Freelance</span>
+            <h1 className="text-4xl font-bold gradient-text mb-2">
+              MiniFreelance
             </h1>
-            <p className="text-gray-600">
-              {isLogin ? 'Welcome back!' : 'Create your account'}
+            <p className="text-text-secondary">
+              {isLogin ? 'Welcome back to your workspace' : 'Create your account and start freelancing'}
             </p>
           </div>
 
           {/* Role Toggle */}
-          <div className="flex bg-gray-100 rounded-lg p-1 mb-6">
+          <div className="flex bg-dark-secondary/50 backdrop-blur-sm rounded-full p-1 mb-8 border border-gray-700/50">
             <button
-              className={`flex-1 flex items-center justify-center py-2 px-4 rounded-md transition-all duration-200 ${
+              className={`flex-1 flex items-center justify-center py-3 px-6 rounded-full transition-all duration-200 ${
                 formData.role === 'client'
-                  ? 'bg-white shadow-sm text-primary-600'
-                  : 'text-gray-600'
+                  ? 'bg-primary-600 text-white shadow-glow'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
               onClick={() => setFormData(prev => ({ ...prev, role: 'client' }))}
             >
@@ -158,10 +164,10 @@ const Login = () => {
               Client
             </button>
             <button
-              className={`flex-1 flex items-center justify-center py-2 px-4 rounded-md transition-all duration-200 ${
+              className={`flex-1 flex items-center justify-center py-3 px-6 rounded-full transition-all duration-200 ${
                 formData.role === 'freelancer'
-                  ? 'bg-white shadow-sm text-primary-600'
-                  : 'text-gray-600'
+                  ? 'bg-primary-600 text-white shadow-glow'
+                  : 'text-text-secondary hover:text-text-primary'
               }`}
               onClick={() => setFormData(prev => ({ ...prev, role: 'freelancer' }))}
             >
@@ -175,24 +181,24 @@ const Login = () => {
             {/* Name Field (for signup) */}
             {!isLogin && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary w-5 h-5" />
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-                      errors.name ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary-500/50 focus:border-transparent ${
+                      errors.name ? 'border-red-500' : 'border-gray-700'
+                    } bg-dark-secondary text-text-primary placeholder-text-secondary`}
                     placeholder="Enter your full name"
                   />
                 </div>
                 {errors.name && (
-                  <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+                  <p className="mt-1 text-sm text-red-400">{errors.name}</p>
                 )}
               </div>
             )}

@@ -133,7 +133,7 @@ const FreelancerProfiles = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-dark-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -248,7 +248,7 @@ const FreelancerProfiles = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Button variant="secondary" className="px-8">
+            <Button className="px-8 bg-black text-white border border-gray-600 hover:bg-gray-800">
               Load More Freelancers
             </Button>
           </motion.div>

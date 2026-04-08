@@ -11,12 +11,45 @@ const DashboardCard = ({
   color = 'primary',
   loading = false 
 }) => {
-  const colorClasses = {
-    primary: 'bg-primary-100 text-primary-600',
-    green: 'bg-green-100 text-green-600',
-    blue: 'bg-blue-100 text-blue-600',
-    purple: 'bg-purple-100 text-purple-600',
-    orange: 'bg-orange-100 text-orange-600',
+  const getChangeColor = (type) => {
+    switch (type) {
+      case 'increase':
+        return 'text-green-400';
+      case 'decrease':
+        return 'text-red-400';
+      default:
+        return 'text-text-secondary';
+    }
+  };
+
+  const getIconBgColor = (color) => {
+    switch (color) {
+      case 'primary':
+        return 'bg-primary-500/20';
+      case 'green':
+        return 'bg-green-500/20';
+      case 'blue':
+        return 'bg-blue-500/20';
+      case 'purple':
+        return 'bg-purple-500/20';
+      default:
+        return 'bg-gray-500/20';
+    }
+  };
+
+  const getIconColor = (color) => {
+    switch (color) {
+      case 'primary':
+        return 'text-primary-400';
+      case 'green':
+        return 'text-green-400';
+      case 'blue':
+        return 'text-blue-400';
+      case 'purple':
+        return 'text-purple-400';
+      default:
+        return 'text-text-secondary';
+    }
   };
 
   if (loading) {
@@ -33,39 +66,34 @@ const DashboardCard = ({
 
   return (
     <motion.div
-      className="bg-white rounded-xl shadow-sm p-6 hover:shadow-lg transition-shadow duration-300"
+      className="card p-6"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.3 }}
+      whileHover={{ scale: 1.02, y: -5 }}
     >
-      <div className="flex items-center justify-between">
-        <div className="flex-1">
-          <p className="text-sm text-gray-600 mb-1">{title}</p>
-          <p className="text-2xl font-bold text-gray-900">{value}</p>
-          
-          {change && (
-            <div className={`flex items-center mt-2 text-sm ${
-              changeType === 'increase' ? 'text-green-600' : 'text-red-600'
-            }`}>
-              {changeType === 'increase' ? (
-                <TrendingUp className="w-4 h-4 mr-1" />
-              ) : (
-                <TrendingDown className="w-4 h-4 mr-1" />
-              )}
-              {change} from last month
-            </div>
-          )}
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-sm font-medium text-text-secondary">{title}</h3>
+        <div className={`w-12 h-12 ${getIconBgColor(color)} rounded-2xl flex items-center justify-center border border-gray-700`}>
+          <Icon className={`w-6 h-6 ${getIconColor(color)}`} />
         </div>
-        
-        <motion.div
-          className={`w-12 h-12 ${colorClasses[color]} rounded-lg flex items-center justify-center`}
-          whileHover={{ scale: 1.1, rotate: 5 }}
-          transition={{ duration: 0.2 }}
-        >
-          <Icon className="w-6 h-6" />
-        </motion.div>
       </div>
+      
+      <div className="mb-2">
+        <p className="text-3xl font-bold gradient-text">{value}</p>
+      </div>
+      
+      {change && (
+        <div className="flex items-center space-x-2">
+          {changeType === 'increase' ? (
+            <TrendingUp className={`w-4 h-4 ${getChangeColor(changeType)}`} />
+          ) : (
+            <TrendingDown className={`w-4 h-4 ${getChangeColor(changeType)}`} />
+          )}
+          <span className={`text-sm font-medium ${getChangeColor(changeType)}`}>
+            {change} from last month
+          </span>
+        </div>
+      )}
     </motion.div>
   );
 };

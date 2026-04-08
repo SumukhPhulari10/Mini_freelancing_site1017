@@ -1,40 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  * {
+    border-color: theme('colors.border');
   }
-
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    @apply bg-dark-primary text-text-primary;
   }
 }
 
 @layer components {
+  .btn {
+    @apply px-6 py-3 rounded-full font-medium transition-all duration-300 font-inter;
+  }
+  
   .btn-primary {
-    @apply bg-primary-600 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:bg-primary-700 hover:shadow-lg transform hover:-translate-y-0.5;
+    @apply bg-primary-600 text-white hover:bg-primary-700 hover:shadow-glow transform hover:scale-105;
   }
-
+  
   .btn-secondary {
-    @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:bg-gray-300 hover:shadow-md transform hover:-translate-y-0.5;
+    @apply border border-gray-600 text-text-primary bg-transparent hover:bg-dark-secondary hover:border-primary-500;
   }
-
+  
   .card {
-    @apply bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+    @apply bg-dark-secondary rounded-2xl border border-gray-800 shadow-card hover:shadow-glow transition-all duration-300 transform hover:-translate-y-1;
   }
-
-  .input-field {
-    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
-  }
-
+  
   .skill-tag {
-    @apply inline-block px-3 py-1 bg-primary-100 text-primary-700 text-sm rounded-full;
+    @apply px-3 py-1 bg-primary-500/20 text-primary-400 text-xs rounded-full border border-primary-500/30;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 bg-dark-secondary border border-gray-700 rounded-xl text-text-primary placeholder-text-secondary focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200;
+  }
+  
+  .glass-card {
+    @apply bg-dark-secondary/80 backdrop-blur-xl border border-gray-800;
+  }
+  
+  .glow-text {
+    @apply text-primary-400 drop-shadow-glow;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-400 to-accent bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+  }
+  
+  .border-glow {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3), inset 0 0 20px rgba(99, 102, 241, 0.1);
   }
 }

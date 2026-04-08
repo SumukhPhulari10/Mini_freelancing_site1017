@@ -7,8 +7,8 @@ const Topbar = () => {
   const { user } = useAuth();
 
   return (
-    <motion.header
-      className="bg-white shadow-sm border-b border-gray-200"
+    <motion.div
+      className="bg-dark-secondary border-b border-gray-800"
       initial={{ y: -50 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
@@ -18,11 +18,11 @@ const Topbar = () => {
           {/* Search Bar */}
           <div className="flex-1 max-w-xl">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary w-5 h-5" />
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 bg-dark-secondary border border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500/50 focus:border-transparent text-text-primary placeholder-text-secondary"
               />
             </div>
           </div>
@@ -31,7 +31,7 @@ const Topbar = () => {
           <div className="flex items-center space-x-4 ml-6">
             {/* Notifications */}
             <motion.button
-              className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+              className="relative p-2 text-text-secondary hover:bg-dark-tertiary rounded-lg"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -42,21 +42,21 @@ const Topbar = () => {
             {/* User Menu */}
             <div className="flex items-center space-x-3">
               <motion.div
-                className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center"
+                className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center"
                 whileHover={{ scale: 1.1 }}
               >
-                <User className="w-4 h-4 text-primary-600" />
+                <User className="w-4 h-4 text-white" />
               </motion.div>
               <div className="hidden md:block">
-                <p className="text-sm font-medium text-gray-900">{user?.name}</p>
-                <p className="text-xs text-gray-600 capitalize">{user?.role}</p>
+                <p className="text-sm font-medium text-text-primary">{user?.name}</p>
+                <p className="text-xs text-text-secondary capitalize">{user?.role}</p>
               </div>
-              <ChevronDown className="w-4 h-4 text-gray-600" />
+              <ChevronDown className="w-4 h-4 text-text-secondary" />
             </div>
           </div>
         </div>
       </div>
-    </motion.header>
+    </motion.div>
   );
 };
 

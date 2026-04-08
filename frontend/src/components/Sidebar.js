@@ -1,48 +1,50 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Home, 
   Briefcase, 
+  FileText, 
+  DollarSign, 
   Users, 
   MessageSquare, 
   Settings, 
-  FileText,
-  DollarSign,
-  TrendingUp,
+  LogOut,
   User,
-  LogOut
+  BarChart3,
+  TrendingUp
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Sidebar = ({ role }) => {
-  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const location = useLocation();
+  const { logout, user } = useAuth();
 
   const clientNavItems = [
-    { name: 'Dashboard', href: '/client/dashboard', icon: Home },
-    { name: 'Post a Job', href: '/client/post-job', icon: Briefcase },
-    { name: 'My Jobs', href: '/client/jobs', icon: FileText },
-    { name: 'Bids', href: '/client/bids', icon: Users },
-    { name: 'Messages', href: '/client/messages', icon: MessageSquare },
-    { name: 'Settings', href: '/client/settings', icon: Settings },
+    { icon: Home, label: 'Dashboard', href: '/client/dashboard' },
+    { icon: Briefcase, label: 'My Jobs', href: '/client/jobs' },
+    { icon: FileText, label: 'Post Job', href: '/client/post-job' },
+    { icon: DollarSign, label: 'Bids', href: '/client/bids' },
+    { icon: MessageSquare, label: 'Messages', href: '/client/messages' },
+    { icon: Settings, label: 'Settings', href: '/client/settings' },
   ];
 
   const freelancerNavItems = [
-    { name: 'Dashboard', href: '/freelancer/dashboard', icon: Home },
-    { name: 'Browse Jobs', href: '/freelancer/jobs', icon: Briefcase },
-    { name: 'My Bids', href: '/freelancer/bids', icon: FileText },
-    { name: 'Earnings', href: '/freelancer/earnings', icon: DollarSign },
-    { name: 'Profile', href: '/freelancer/profile', icon: User },
-    { name: 'Messages', href: '/freelancer/messages', icon: MessageSquare },
-    { name: 'Settings', href: '/freelancer/settings', icon: Settings },
+    { icon: Home, label: 'Dashboard', href: '/freelancer/dashboard' },
+    { icon: Briefcase, label: 'Browse Jobs', href: '/freelancer/jobs' },
+    { icon: FileText, label: 'My Bids', href: '/freelancer/bids' },
+    { icon: DollarSign, label: 'Earnings', href: '/freelancer/earnings' },
+    { icon: User, label: 'Profile', href: '/freelancer/profile' },
+    { icon: MessageSquare, label: 'Messages', href: '/freelancer/messages' },
+    { icon: Settings, label: 'Settings', href: '/freelancer/settings' },
   ];
 
   const navItems = role === 'client' ? clientNavItems : freelancerNavItems;
 
   return (
     <motion.div
-      className="w-64 bg-white shadow-lg h-screen sticky top-0"
+      className="w-64 bg-dark-secondary border-r border-gray-800 h-screen sticky top-0"
       initial={{ x: -300 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.5 }}
@@ -50,21 +52,21 @@ const Sidebar = ({ role }) => {
       <div className="p-6">
         {/* Logo */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-primary-600">
-            Mini<span className="text-primary-800">Freelance</span>
+          <h1 className="text-2xl font-bold gradient-text">
+            MiniFreelance
           </h1>
           <p className="text-sm text-gray-600 capitalize">{role} Dashboard</p>
         </div>
 
         {/* User Info */}
-        <div className="mb-8 p-4 bg-gray-50 rounded-lg">
+        <div className="mb-8 p-4 bg-dark-tertiary rounded-2xl border border-gray-700">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
-              <User className="w-5 h-5 text-primary-600" />
+            <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center shadow-glow">
+              <User className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">{user?.name}</p>
-              <p className="text-xs text-gray-600 capitalize">{user?.role}</p>
+              <p className="font-medium text-text-primary">{user?.name || 'John Doe'}</p>
+              <p className="text-sm text-text-secondary capitalize">{role}</p>
             </div>
           </div>
         </div>
@@ -72,33 +74,31 @@ const Sidebar = ({ role }) => {
         {/* Navigation */}
         <nav className="space-y-2">
           {navItems.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.href}
-              className={({ isActive }) =>
-                `flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                  isActive
-                    ? 'bg-primary-100 text-primary-700'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`
-              }
+            <motion.button
+              key={item.label}
+              onClick={() => navigate(item.href)}
+              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                location.pathname === item.href
+                  ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30 shadow-glow'
+                  : 'text-text-secondary hover:bg-dark-tertiary hover:text-text-primary'
+              }`}
+              whileHover={{ scale: 1.02, x: 5 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <item.icon className="w-5 h-5" />
-              </motion.div>
-              <span className="font-medium">{item.name}</span>
-            </NavLink>
+              <item.icon className="w-5 h-5" />
+              <span className="font-medium">{item.label}</span>
+              {location.pathname === item.href && (
+                <div className="w-2 h-2 bg-primary-400 rounded-full animate-pulse"></div>
+              )}
+            </motion.button>
           ))}
         </nav>
 
-        {/* Logout Button */}
-        <div className="mt-8 pt-8 border-t border-gray-200">
+        {/* Logout */}
+        <div className="absolute bottom-6 left-6 right-6">
           <motion.button
             onClick={logout}
-            className="flex items-center space-x-3 w-full px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all duration-200"
+            className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-red-400 hover:bg-red-500/10 border border-red-500/20 transition-all duration-200"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

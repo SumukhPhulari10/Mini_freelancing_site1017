@@ -124,15 +124,15 @@ const Chat = ({ isOpen, onClose, recipient }) => {
                   transition={{ duration: 0.3 }}
                 >
                   <div
-                    className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                    className={`max-w-xs lg:max-w-md px-4 py-2 rounded-xl ${
                       msg.sender === 'me'
                         ? 'bg-primary-600 text-white'
-                        : 'bg-gray-100 text-gray-900'
+                        : 'bg-dark-tertiary text-text-primary border border-gray-700'
                     }`}
                   >
                     <p className="text-sm">{msg.text}</p>
                     <p className={`text-xs mt-1 ${
-                      msg.sender === 'me' ? 'text-primary-200' : 'text-gray-500'
+                      msg.sender === 'me' ? 'text-primary-200' : 'text-text-secondary'
                     }`}>
                       {msg.timestamp}
                     </p>
@@ -143,7 +143,7 @@ const Chat = ({ isOpen, onClose, recipient }) => {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-gray-200">
+            <div className="p-4 border-t border-gray-800">
               <div className="flex items-center space-x-2">
                 <input
                   type="text"
@@ -151,7 +151,7 @@ const Chat = ({ isOpen, onClose, recipient }) => {
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Type a message..."
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="flex-1 px-4 py-2 bg-dark-secondary border border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500/50 focus:border-transparent text-text-primary placeholder-text-secondary"
                 />
                 <Button
                   onClick={handleSendMessage}

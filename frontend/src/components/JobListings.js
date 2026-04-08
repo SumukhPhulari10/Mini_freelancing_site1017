@@ -162,8 +162,7 @@ const JobListings = () => {
             {/* Category Filter */}
             <div className="relative">
               <Button
-                variant="secondary"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 bg-black text-white border border-gray-600 hover:bg-gray-800"
                 onClick={() => setShowFilters(!showFilters)}
               >
                 <Filter className="w-4 h-4" />
@@ -174,7 +173,7 @@ const JobListings = () => {
               {/* Dropdown */}
               {showFilters && (
                 <motion.div
-                  className="absolute top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10"
+                  className="absolute top-full mt-2 w-48 bg-black border border-gray-600 rounded-lg shadow-glow z-10"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
@@ -182,7 +181,7 @@ const JobListings = () => {
                   {categories.map((category) => (
                     <button
                       key={category.value}
-                      className="w-full text-left px-4 py-2 hover:bg-gray-50 transition-colors"
+                      className="w-full text-left px-4 py-2 bg-black text-white border border-gray-600 hover:bg-gray-800 transition-colors"
                       onClick={() => {
                         setSelectedCategory(category.value);
                         setShowFilters(false);
@@ -245,7 +244,7 @@ const JobListings = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Button variant="secondary" className="px-8">
+            <Button className="px-8 bg-black text-white border border-gray-600 hover:bg-gray-800">
               Load More Jobs
             </Button>
           </motion.div>
