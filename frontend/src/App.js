@@ -19,12 +19,14 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ClientDashboard from './pages/ClientDashboard';
 import ClientJobs from './pages/ClientJobs';
 import ClientBids from './pages/ClientBids';
+import ClientSettings from './pages/ClientSettings';
 
 // Freelancer Pages
 import FreelancerDashboard from './pages/FreelancerDashboard';
 import FreelancerJobs from './pages/FreelancerJobs';
 import FreelancerBids from './pages/FreelancerBids';
 import FreelancerProfile from './pages/FreelancerProfile';
+import FreelancerSettings from './pages/FreelancerSettings';
 
 // Auth Components
 import Login from './components/Login';
@@ -60,7 +62,7 @@ function App() {
                     <Route path="bids" element={<ClientBids />} />
                     <Route path="post-job" element={<PostJob />} />
                     <Route path="messages" element={<div>Messages Page</div>} />
-                    <Route path="settings" element={<div>Settings Page</div>} />
+                    <Route path="settings" element={<ClientSettings />} />
                     <Route path="" element={<Navigate to="/client/dashboard" replace />} />
                   </Routes>
                 </DashboardLayout>
@@ -78,7 +80,7 @@ function App() {
                     <Route path="earnings" element={<div>Earnings Page</div>} />
                     <Route path="profile" element={<FreelancerProfile />} />
                     <Route path="messages" element={<div>Messages Page</div>} />
-                    <Route path="settings" element={<div>Settings Page</div>} />
+                    <Route path="settings" element={<FreelancerSettings />} />
                     <Route path="" element={<Navigate to="/freelancer/dashboard" replace />} />
                   </Routes>
                 </DashboardLayout>
