@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram, ChevronUp } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram, ChevronUp, Github } from 'lucide-react';
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <footer className="bg-dark-secondary text-text-primary border-t border-gray-800">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <motion.div
@@ -28,10 +28,10 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               {[
-                { icon: Facebook, href: '#', label: 'Facebook' },
-                { icon: Twitter, href: '#', label: 'Twitter' },
-                { icon: Linkedin, href: '#', label: 'LinkedIn' },
-                { icon: Instagram, href: '#', label: 'Instagram' }
+                { icon: Facebook, href: 'https://www.facebook.com/omkar-solanke-07', label: 'Facebook' },
+                { icon: Github, href: 'https://github.com/OmkarSolanke07', label: 'GitHub' },
+                { icon: Linkedin, href: 'https://www.linkedin.com/in/omkar-solanke-401a0828b/', label: 'LinkedIn' },
+                { icon: Instagram, href: 'https://www.instagram.com/omkar_solanke_07', label: 'Instagram' }
               ].map((social) => (
                 <motion.a
                   key={social.label}
@@ -112,30 +112,30 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-300">support@minifreelance.com</span>
+                <span className="text-gray-300">omkarsolanke50@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-300">+1 (555) 123-4567</span>
+                <span className="text-gray-300">+91 7057678430</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-300">San Francisco, CA</span>
+                <span className="text-gray-300">MGM Nanded, Maharashtra, India</span>
               </div>
             </div>
 
             {/* Newsletter */}
             <div className="mt-6">
               <h5 className="font-medium mb-2">Subscribe to Newsletter</h5>
-              <div className="flex space-x-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="email"
                   placeholder="Your email"
                   className="flex-1 px-3 py-2 bg-dark-tertiary border border-gray-700 rounded-xl focus:outline-none focus:border-primary-500 text-text-primary placeholder-text-secondary"
                 />
                 <motion.button
-                  className="btn btn-primary"
-                  whileHover={{ scale: 1.05 }}
+                  className="px-4 py-2 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors duration-200 whitespace-nowrap"
+                  whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   Subscribe
@@ -156,7 +156,7 @@ const Footer = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
             >
-              © 2024 MiniFreelance. All rights reserved.
+              © 2024 MiniFreelance. All rights reserved. Developed by Omkar Solanke & Sumukh Phulari.
             </motion.div>
             
             <motion.div
