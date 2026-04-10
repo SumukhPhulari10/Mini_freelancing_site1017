@@ -53,17 +53,19 @@ const Sidebar = ({ role }) => {
           <h1 className="text-2xl font-bold gradient-text">
             MiniFreelance
           </h1>
-          <p className="text-sm text-gray-600 capitalize">{role} Dashboard</p>
+          <p className="text-sm text-text-secondary capitalize">{role} Dashboard</p>
         </div>
 
         {/* User Info */}
         <div className="mb-8 p-4 bg-dark-tertiary rounded-2xl border border-gray-700">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center shadow-glow">
-              <User className="w-5 h-5 text-white" />
+              <span className="text-sm font-bold text-white">
+                {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'U'}
+              </span>
             </div>
             <div>
-              <p className="font-medium text-text-primary">{user?.name || 'John Doe'}</p>
+              <p className="font-medium text-text-primary">{user?.name || 'User'}</p>
               <p className="text-sm text-text-secondary capitalize">{role}</p>
             </div>
           </div>

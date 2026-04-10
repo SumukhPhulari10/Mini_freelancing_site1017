@@ -1,5 +1,4 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
@@ -23,7 +22,7 @@ const DashboardLayout = ({ role, children }) => {
             transition={{ duration: 0.5 }}
             className="h-full"
           >
-            <Outlet />
+            {children}
           </motion.div>
         </main>
       </div>

@@ -90,20 +90,20 @@ const PostJob = () => {
   };
 
   return (
-    <section id="post-job" className="py-20 bg-white">
+    <section id="post-job" className="py-10">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          className="text-center mb-12"
+          className="mb-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Post a Job
-          </h2>
-          <p className="text-xl text-gray-600">
+          <h1 className="text-2xl font-bold text-text-primary">
+            Post a New Job
+          </h1>
+          <p className="text-text-muted mt-1">
             Find the perfect talent for your project
           </p>
         </motion.div>
@@ -111,21 +111,19 @@ const PostJob = () => {
         {/* Success Message */}
         {showSuccess && (
           <motion.div
-            className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8"
+            className="bg-green-500/10 border border-green-500/30 rounded-2xl p-4 mb-6"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
               </div>
-              <div className="ml-3">
-                <p className="text-green-800 font-medium">Job posted successfully!</p>
-                <p className="text-green-600 text-sm">Your job is now live and visible to freelancers.</p>
+              <div>
+                <p className="text-green-400 font-semibold text-sm">Job posted successfully!</p>
+                <p className="text-green-500/70 text-xs">Your job is now live and visible to freelancers.</p>
               </div>
             </div>
           </motion.div>
@@ -134,7 +132,7 @@ const PostJob = () => {
         {/* Form */}
         <motion.form
           onSubmit={handleSubmit}
-          className="bg-gray-50 rounded-xl p-8"
+          className="bg-dark-secondary rounded-2xl border border-gray-800 p-6"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -143,7 +141,7 @@ const PostJob = () => {
           <div className="space-y-6">
             {/* Job Title */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 <Briefcase className="inline w-4 h-4 mr-2" />
                 Job Title
               </label>
@@ -160,7 +158,7 @@ const PostJob = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 <FileText className="inline w-4 h-4 mr-2" />
                 Job Description
               </label>
@@ -179,7 +177,7 @@ const PostJob = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Budget */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-text-secondary mb-2">
                   <DollarSign className="inline w-4 h-4 mr-2" />
                   Budget ($)
                 </label>
@@ -197,7 +195,7 @@ const PostJob = () => {
 
               {/* Duration */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-text-secondary mb-2">
                   Project Duration
                 </label>
                 <select
@@ -219,7 +217,7 @@ const PostJob = () => {
 
             {/* Location */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 Location
               </label>
               <input
@@ -235,7 +233,7 @@ const PostJob = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 Category
               </label>
               <select
@@ -256,7 +254,7 @@ const PostJob = () => {
 
             {/* Skills */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 <Tag className="inline w-4 h-4 mr-2" />
                 Required Skills
               </label>
@@ -285,7 +283,7 @@ const PostJob = () => {
                   {formData.skills.map((skill) => (
                     <motion.span
                       key={skill}
-                      className="inline-flex items-center gap-1 px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm"
+                      className="inline-flex items-center gap-1 px-3 py-1 bg-primary-500/15 text-primary-400 border border-primary-500/25 rounded-full text-sm font-medium"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}

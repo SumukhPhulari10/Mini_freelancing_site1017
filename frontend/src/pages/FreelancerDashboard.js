@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, DollarSign, TrendingUp, Eye, FileText, Users } from 'lucide-react';
+import { Briefcase, DollarSign, TrendingUp, Eye, FileText, Users, Star, Zap } from 'lucide-react';
 import DashboardCard from '../components/DashboardCard';
 import Button from '../components/Button';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const FreelancerDashboard = () => {
-  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const stats = [
     {
@@ -66,29 +69,51 @@ const FreelancerDashboard = () => {
     }
   ];
 
-  const getStatusColor = (status) => {
-    const colors = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      accepted: 'bg-green-100 text-green-800',
-      rejected: 'bg-red-100 text-red-800'
+  const getStatusStyle = (status) => {
+    const styles = {
+      pending: 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/30',
+      accepted: 'bg-green-500/15 text-green-400 border border-green-500/30',
+      rejected: 'bg-red-500/15 text-red-400 border border-red-500/30'
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return styles[status] || 'bg-gray-700/50 text-gray-400 border border-gray-600/30';
   };
+
+  // Get first name for greeting
+  const firstName = user?.name ? user.name.split(' ')[0] : 'Freelancer';
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Welcome Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl shadow-sm p-6"
+        className="relative overflow-hidden bg-gradient-to-br from-primary-600/20 via-dark-secondary to-accent/10 rounded-2xl border border-gray-700/60 p-6 shadow-card"
       >
-        <div className="flex justify-between items-center">
+        {/* Background decorative orbs */}
+        <div className="absolute top-0 right-0 w-48 h-48 bg-primary-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-16 w-32 h-32 bg-accent/10 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="relative flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Freelancer Dashboard</h1>
-            <p className="text-gray-600">Track your bids and manage your freelance career</p>
+            <p className="text-sm text-text-muted font-medium uppercase tracking-wider mb-1">Welcome back 👋</p>
+            <h1 className="text-3xl font-bold text-text-primary">
+              Hello, <span className="gradient-text">{firstName}</span>!
+            </h1>
+            <p className="text-text-secondary mt-1">
+              Track your bids and manage your freelance career
+              {user?.skills && user.skills.length > 0 && (
+                <span className="ml-2 text-primary-400 text-sm">
+                  · {user.skills.slice(0, 2).join(', ')} {user.skills.length > 2 ? `+${user.skills.length - 2} more` : ''}
+                </span>
+              )}
+            </p>
           </div>
-          <Button>Browse Jobs</Button>
+          <div className="flex gap-3">
+            <Button onClick={() => navigate('/freelancer/jobs')}>
+              <Zap className="w-4 h-4 mr-2 inline" />
+              Browse Jobs
+            </Button>
+          </div>
         </div>
       </motion.div>
 
@@ -108,39 +133,42 @@ const FreelancerDashboard = () => {
 
       {/* Recent Bids */}
       <motion.div
-        className="bg-white rounded-xl shadow-sm p-6"
+        className="bg-dark-secondary rounded-2xl border border-gray-800 shadow-card p-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">Recent Bids</h2>
-          <Button variant="secondary">View All</Button>
+          <div>
+            <h2 className="text-xl font-semibold text-text-primary">Recent Bids</h2>
+            <p className="text-sm text-text-muted mt-0.5">Your latest submitted proposals</p>
+          </div>
+          <Button variant="secondary" onClick={() => navigate('/freelancer/bids')}>View All</Button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {recentBids.map((bid, index) => (
             <motion.div
               key={bid.id}
-              className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
+              className="flex items-center justify-between p-4 border border-gray-700/50 rounded-xl hover:border-primary-500/30 hover:bg-primary-500/5 transition-all duration-200"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ x: 4 }}
             >
               <div className="flex-1">
-                <h3 className="font-medium text-gray-900">{bid.jobTitle}</h3>
-                <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
-                  <span>{bid.bidAmount}</span>
-                  <span>{bid.submitted}</span>
+                <h3 className="font-medium text-text-primary">{bid.jobTitle}</h3>
+                <div className="flex items-center space-x-4 mt-1 text-sm text-text-secondary">
+                  <span className="text-primary-400 font-semibold">{bid.bidAmount}</span>
+                  <span className="text-text-muted">{bid.submitted}</span>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-3">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(bid.status)}`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusStyle(bid.status)}`}>
                   {bid.status.charAt(0).toUpperCase() + bid.status.slice(1)}
                 </span>
-                <Button variant="secondary" size="sm">View Details</Button>
+                <Button variant="secondary" size="sm">View</Button>
               </div>
             </motion.div>
           ))}
@@ -149,54 +177,71 @@ const FreelancerDashboard = () => {
 
       {/* Quick Actions */}
       <motion.div
-        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        className="grid grid-cols-1 md:grid-cols-3 gap-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
       >
         <motion.div
-          className="bg-primary-50 rounded-xl p-6 text-center hover:bg-primary-100 transition-colors cursor-pointer"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className="bg-dark-secondary rounded-2xl border border-gray-800 p-6 text-center hover:border-primary-500/40 hover:bg-primary-500/5 transition-all duration-200 cursor-pointer group"
+          whileHover={{ scale: 1.03, y: -2 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => navigate('/freelancer/jobs')}
         >
-          <Briefcase className="w-12 h-12 text-primary-600 mx-auto mb-4" />
-          <h3 className="font-semibold text-gray-900 mb-2">Browse Jobs</h3>
-          <p className="text-sm text-gray-600">Find new opportunities</p>
+          <div className="w-12 h-12 bg-primary-500/20 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-500/30 transition-colors">
+            <Briefcase className="w-6 h-6 text-primary-400" />
+          </div>
+          <h3 className="font-semibold text-text-primary mb-1">Browse Jobs</h3>
+          <p className="text-sm text-text-muted">Find new opportunities</p>
         </motion.div>
 
         <motion.div
-          className="bg-blue-50 rounded-xl p-6 text-center hover:bg-blue-100 transition-colors cursor-pointer"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className="bg-dark-secondary rounded-2xl border border-gray-800 p-6 text-center hover:border-blue-500/40 hover:bg-blue-500/5 transition-all duration-200 cursor-pointer group"
+          whileHover={{ scale: 1.03, y: -2 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => navigate('/freelancer/bids')}
         >
-          <FileText className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-          <h3 className="font-semibold text-gray-900 mb-2">My Bids</h3>
-          <p className="text-sm text-gray-600">Track your proposals</p>
+          <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-500/30 transition-colors">
+            <FileText className="w-6 h-6 text-blue-400" />
+          </div>
+          <h3 className="font-semibold text-text-primary mb-1">My Bids</h3>
+          <p className="text-sm text-text-muted">Track your proposals</p>
         </motion.div>
 
         <motion.div
-          className="bg-green-50 rounded-xl p-6 text-center hover:bg-green-100 transition-colors cursor-pointer"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          className="bg-dark-secondary rounded-2xl border border-gray-800 p-6 text-center hover:border-purple-500/40 hover:bg-purple-500/5 transition-all duration-200 cursor-pointer group"
+          whileHover={{ scale: 1.03, y: -2 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => navigate('/freelancer/profile')}
         >
-          <Users className="w-12 h-12 text-green-600 mx-auto mb-4" />
-          <h3 className="font-semibold text-gray-900 mb-2">Profile</h3>
-          <p className="text-sm text-gray-600">Update your information</p>
+          <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-500/30 transition-colors">
+            <Users className="w-6 h-6 text-purple-400" />
+          </div>
+          <h3 className="font-semibold text-text-primary mb-1">My Profile</h3>
+          <p className="text-sm text-text-muted">Update your information</p>
         </motion.div>
       </motion.div>
 
-      {/* Earnings Chart Placeholder */}
+      {/* Earnings Overview Placeholder */}
       <motion.div
-        className="bg-white rounded-xl shadow-sm p-6"
+        className="bg-dark-secondary rounded-2xl border border-gray-800 shadow-card p-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.7 }}
       >
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Earnings Overview</h2>
-        <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
-          <div className="text-center text-gray-500">
-            <TrendingUp className="w-12 h-12 mx-auto mb-2" />
-            <p>Earnings chart would be displayed here</p>
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h2 className="text-xl font-semibold text-text-primary">Earnings Overview</h2>
+            <p className="text-sm text-text-muted mt-0.5">Your income this year</p>
+          </div>
+          <span className="px-3 py-1 bg-green-500/15 text-green-400 text-xs font-medium rounded-full border border-green-500/30">
+            +18% this month
+          </span>
+        </div>
+        <div className="h-48 bg-dark-primary/50 rounded-xl flex items-center justify-center border border-gray-700/30">
+          <div className="text-center text-text-muted">
+            <TrendingUp className="w-10 h-10 mx-auto mb-2 text-primary-400/50" />
+            <p className="text-sm">Earnings chart will be displayed here</p>
           </div>
         </div>
       </motion.div>

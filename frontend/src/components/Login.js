@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Briefcase, Eye, EyeOff, Mail, Lock, Plus, X, MapPin, Phone, FileText } from 'lucide-react';
+import { User, Briefcase, Eye, EyeOff, Mail, Lock, Plus, X, MapPin, Phone, FileText, ArrowLeft } from 'lucide-react';
 import Button from './Button';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +26,7 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [newSkill, setNewSkill] = useState('');
-  const { login, isLoading } = useAuth();
+  const { login, signup, isLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -111,14 +111,35 @@ const Login = () => {
     }
 
     try {
-      // Simulate login/signup
-      await login(formData.role, formData);
-      
-      // Redirect to appropriate dashboard
-      if (formData.role === 'client') {
-        navigate('/client/dashboard');
+      if (isLogin) {
+        // Login flow - authenticate and redirect to dashboard
+        await login(formData.role, formData);
+        if (formData.role === 'client') {
+          navigate('/client/dashboard');
+        } else {
+          navigate('/freelancer/dashboard');
+        }
       } else {
-        navigate('/freelancer/dashboard');
+        // Signup flow - store user data locally, then switch to login
+        signup(formData.role, formData);
+        const savedEmail = formData.email;
+        const savedRole = formData.role;
+        setIsLogin(true);
+        setFormData(prev => ({
+          ...prev,
+          email: savedEmail,
+          role: savedRole,
+          name: '',
+          companyName: '',
+          workType: '',
+          location: '',
+          phone: '',
+          skills: [],
+          experience: '',
+          portfolio: '',
+          hourlyRate: ''
+        }));
+        setErrors({});
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -140,6 +161,15 @@ const Login = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="glass-card rounded-3xl shadow-glow p-8 border border-gray-800/50">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2 text-text-secondary hover:text-primary-400 transition-colors duration-200 mb-6 group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200" />
+            <span className="text-sm font-medium">Back to Home</span>
+          </button>
+
           {/* Logo */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold gradient-text mb-2">
@@ -208,7 +238,7 @@ const Login = () => {
               <>
                 {/* Company Name */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
                     <Briefcase className="inline w-4 h-4 mr-2" />
                     Company Name
                   </label>
@@ -217,19 +247,19 @@ const Login = () => {
                     name="companyName"
                     value={formData.companyName}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-                      errors.companyName ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary-500/50 focus:border-transparent bg-dark-secondary text-text-primary placeholder-text-muted ${
+                      errors.companyName ? 'border-red-500' : 'border-gray-700'
                     }`}
                     placeholder="Enter your company name"
                   />
                   {errors.companyName && (
-                    <p className="mt-1 text-sm text-red-600">{errors.companyName}</p>
+                    <p className="mt-1 text-sm text-red-400">{errors.companyName}</p>
                   )}
                 </div>
 
                 {/* Work Type */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
                     <FileText className="inline w-4 h-4 mr-2" />
                     Work Type
                   </label>
@@ -237,26 +267,27 @@ const Login = () => {
                     name="workType"
                     value={formData.workType}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-                      errors.workType ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary-500/50 focus:border-transparent bg-dark-secondary text-text-primary ${
+                      errors.workType ? 'border-red-500' : 'border-gray-700'
+                    } ${!formData.workType ? 'text-text-muted' : 'text-text-primary'}`}
+                    style={{ colorScheme: 'dark' }}
                   >
-                    <option value="">Select work type</option>
-                    <option value="technology">Technology & Software</option>
-                    <option value="design">Design & Creative</option>
-                    <option value="marketing">Marketing & Sales</option>
-                    <option value="writing">Writing & Content</option>
-                    <option value="consulting">Consulting & Business</option>
-                    <option value="other">Other</option>
+                    <option value="" className="bg-dark-secondary text-text-muted">Select work type</option>
+                    <option value="technology" className="bg-dark-secondary text-text-primary">Technology & Software</option>
+                    <option value="design" className="bg-dark-secondary text-text-primary">Design & Creative</option>
+                    <option value="marketing" className="bg-dark-secondary text-text-primary">Marketing & Sales</option>
+                    <option value="writing" className="bg-dark-secondary text-text-primary">Writing & Content</option>
+                    <option value="consulting" className="bg-dark-secondary text-text-primary">Consulting & Business</option>
+                    <option value="other" className="bg-dark-secondary text-text-primary">Other</option>
                   </select>
                   {errors.workType && (
-                    <p className="mt-1 text-sm text-red-600">{errors.workType}</p>
+                    <p className="mt-1 text-sm text-red-400">{errors.workType}</p>
                   )}
                 </div>
 
                 {/* Location */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
                     <MapPin className="inline w-4 h-4 mr-2" />
                     Location
                   </label>
@@ -265,14 +296,14 @@ const Login = () => {
                     name="location"
                     value={formData.location}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-700 rounded-xl bg-dark-secondary text-text-primary placeholder-text-muted focus:ring-2 focus:ring-primary-500/50 focus:border-transparent"
                     placeholder="City, Country"
                   />
                 </div>
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
                     <Phone className="inline w-4 h-4 mr-2" />
                     Phone Number
                   </label>
@@ -281,7 +312,7 @@ const Login = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-700 rounded-xl bg-dark-secondary text-text-primary placeholder-text-muted focus:ring-2 focus:ring-primary-500/50 focus:border-transparent"
                     placeholder="+1 (555) 123-4567"
                   />
                 </div>
@@ -293,7 +324,7 @@ const Login = () => {
               <>
                 {/* Skills */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
                     <User className="inline w-4 h-4 mr-2" />
                     Skills
                   </label>
@@ -303,7 +334,7 @@ const Login = () => {
                       value={newSkill}
                       onChange={(e) => setNewSkill(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
-                      className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="flex-1 px-4 py-3 border border-gray-700 rounded-xl bg-dark-secondary text-text-primary placeholder-text-muted focus:ring-2 focus:ring-primary-500/50 focus:border-transparent"
                       placeholder="Add a skill and press Enter"
                     />
                     <Button
@@ -322,13 +353,13 @@ const Login = () => {
                       {formData.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="inline-flex items-center gap-1 px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm"
+                          className="inline-flex items-center gap-1 px-3 py-1 bg-primary-500/20 text-primary-400 rounded-full text-sm border border-primary-500/30"
                         >
                           {skill}
                           <button
                             type="button"
                             onClick={() => removeSkill(skill)}
-                            className="hover:text-primary-900"
+                            className="hover:text-primary-300"
                           >
                             <X className="w-3 h-3" />
                           </button>
@@ -337,13 +368,13 @@ const Login = () => {
                     </div>
                   )}
                   {errors.skills && (
-                    <p className="mt-1 text-sm text-red-600">{errors.skills}</p>
+                    <p className="mt-1 text-sm text-red-400">{errors.skills}</p>
                   )}
                 </div>
 
                 {/* Experience */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
                     <Briefcase className="inline w-4 h-4 mr-2" />
                     Experience Level
                   </label>
@@ -351,24 +382,25 @@ const Login = () => {
                     name="experience"
                     value={formData.experience}
                     onChange={handleInputChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-                      errors.experience ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary-500/50 focus:border-transparent bg-dark-secondary ${
+                      errors.experience ? 'border-red-500' : 'border-gray-700'
+                    } ${!formData.experience ? 'text-text-muted' : 'text-text-primary'}`}
+                    style={{ colorScheme: 'dark' }}
                   >
-                    <option value="">Select experience level</option>
-                    <option value="beginner">Beginner (0-2 years)</option>
-                    <option value="intermediate">Intermediate (2-5 years)</option>
-                    <option value="advanced">Advanced (5-10 years)</option>
-                    <option value="expert">Expert (10+ years)</option>
+                    <option value="" className="bg-dark-secondary text-text-muted">Select experience level</option>
+                    <option value="beginner" className="bg-dark-secondary text-text-primary">Beginner (0-2 years)</option>
+                    <option value="intermediate" className="bg-dark-secondary text-text-primary">Intermediate (2-5 years)</option>
+                    <option value="advanced" className="bg-dark-secondary text-text-primary">Advanced (5-10 years)</option>
+                    <option value="expert" className="bg-dark-secondary text-text-primary">Expert (10+ years)</option>
                   </select>
                   {errors.experience && (
-                    <p className="mt-1 text-sm text-red-600">{errors.experience}</p>
+                    <p className="mt-1 text-sm text-red-400">{errors.experience}</p>
                   )}
                 </div>
 
                 {/* Hourly Rate */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
                     Hourly Rate ($)
                   </label>
                   <input
@@ -376,14 +408,14 @@ const Login = () => {
                     name="hourlyRate"
                     value={formData.hourlyRate}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-700 rounded-xl bg-dark-secondary text-text-primary placeholder-text-muted focus:ring-2 focus:ring-primary-500/50 focus:border-transparent"
                     placeholder="e.g. 50"
                   />
                 </div>
 
                 {/* Portfolio */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-secondary mb-2">
                     <FileText className="inline w-4 h-4 mr-2" />
                     Portfolio URL
                   </label>
@@ -392,7 +424,7 @@ const Login = () => {
                     name="portfolio"
                     value={formData.portfolio}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-700 rounded-xl bg-dark-secondary text-text-primary placeholder-text-muted focus:ring-2 focus:ring-primary-500/50 focus:border-transparent"
                     placeholder="https://yourportfolio.com"
                   />
                 </div>
@@ -401,54 +433,54 @@ const Login = () => {
 
             {/* Email Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary w-5 h-5" />
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-                    errors.email ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary-500/50 focus:border-transparent bg-dark-secondary text-text-primary placeholder-text-muted ${
+                    errors.email ? 'border-red-500' : 'border-gray-700'
                   }`}
                   placeholder="Enter your email"
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.email}</p>
               )}
             </div>
 
             {/* Password Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-text-secondary mb-2">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary w-5 h-5" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-                    errors.password ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full pl-10 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary-500/50 focus:border-transparent bg-dark-secondary text-text-primary placeholder-text-muted ${
+                    errors.password ? 'border-red-500' : 'border-gray-700'
                   }`}
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-secondary hover:text-text-primary"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+                <p className="mt-1 text-sm text-red-400">{errors.password}</p>
               )}
             </div>
 
@@ -474,12 +506,12 @@ const Login = () => {
 
           {/* Toggle Login/Signup */}
           <div className="mt-6 text-center">
-            <p className="text-gray-600">
+            <p className="text-text-secondary">
               {isLogin ? "Don't have an account?" : "Already have an account?"}
               <button
                 type="button"
                 onClick={() => setIsLogin(!isLogin)}
-                className="ml-1 text-primary-600 hover:text-primary-700 font-medium"
+                className="ml-1 text-primary-400 hover:text-primary-300 font-medium"
               >
                 {isLogin ? 'Sign up' : 'Sign in'}
               </button>
@@ -487,9 +519,9 @@ const Login = () => {
           </div>
 
           {/* Demo Info */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <p className="text-xs text-gray-600 text-center">
-              <strong>Demo:</strong> Use any email and password (min 6 chars) to login
+          <div className="mt-6 p-4 bg-dark-secondary/50 rounded-xl border border-gray-700/50">
+            <p className="text-xs text-text-secondary text-center">
+              <strong className="text-text-primary">Demo:</strong> Use any email and password (min 6 chars) to login
             </p>
           </div>
         </div>
