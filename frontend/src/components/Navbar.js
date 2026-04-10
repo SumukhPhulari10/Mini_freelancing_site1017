@@ -92,7 +92,7 @@ const Navbar = () => {
             ) : (
               <>
                 <Button variant="secondary" onClick={handleLogin}>Login</Button>
-                <Button onClick={handleLogin}>Start Free</Button>
+                <Button onClick={handleLogin}>Start Now</Button>
               </>
             )}
           </div>
@@ -154,7 +154,7 @@ const Navbar = () => {
                   ) : (
                     <>
                       <Button variant="secondary" className="w-full" onClick={handleLogin}>Login</Button>
-                      <Button className="w-full" onClick={handleLogin}>Start Free</Button>
+                      <Button className="w-full" onClick={handleLogin}>Start Now</Button>
                     </>
                   )}
                 </div>

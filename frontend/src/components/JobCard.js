@@ -31,7 +31,7 @@ const JobCard = ({ job, onApply }) => {
         {/* Header */}
         <div className="flex justify-between items-start">
           <div className="flex-1">
-            <h3 className="text-xl font-semibold text-gray-900 mb-1 hover:text-primary-600 transition-colors">
+            <h3 className="text-xl font-semibold text-white mb-1 hover:text-primary-600 transition-colors">
               {title}
             </h3>
             <p className="text-gray-600 text-sm">{company}</p>

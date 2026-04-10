@@ -102,7 +102,7 @@ const JobListings = () => {
       setJobs(mockJobs);
       setLoading(false);
     }, 1500);
-  }, []);
+  }, [mockJobs]);
 
   const filteredJobs = jobs.filter(job => {
     const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||

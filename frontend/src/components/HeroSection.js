@@ -73,7 +73,7 @@ const HeroSection = () => {
             className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
           >
             <Button className="flex items-center justify-center gap-2 text-lg px-8 py-4 shadow-glow hover:shadow-glow-lg">
-              Start for Free
+              Start Now
               <ArrowRight className="w-5 h-5" />
             </Button>
             <Button variant="secondary" className="flex items-center justify-center gap-2 text-lg px-8 py-4">
