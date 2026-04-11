@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useFirebaseAuth } from '../firebase/FirebaseAuthContext';
 
 const ProtectedRoute = ({ children, requiredRole }) => {
-  const { isAuthenticated, isInitialized, user } = useAuth();
+  const { isAuthenticated, isLoading, user, userProfile } = useFirebaseAuth();
+  const [showLoading, setShowLoading] = useState(true);
 
-  // Wait until auth is initialized (localStorage check complete) before redirecting
-  if (!isInitialized) {
+  // Debug logging
+  console.log('ProtectedRoute:', { isAuthenticated, isLoading, userRole: userProfile?.role, requiredRole });
+
+  // Safety timeout - stop showing loading after 3 seconds max
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Show loading only briefly during auth check (max 3 seconds)
+  if (isLoading && showLoading) {
     return (
       <div className="min-h-screen bg-dark-primary flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
@@ -18,14 +30,17 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   }
 
   if (!isAuthenticated) {
+    console.log('ProtectedRoute: Not authenticated, redirecting to login');
     return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole && user?.role !== requiredRole) {
-    const dashboardPath = user?.role === 'client' ? '/client/dashboard' : '/freelancer/dashboard';
+  if (requiredRole && userProfile?.role !== requiredRole) {
+    const dashboardPath = userProfile?.role === 'client' ? '/client/dashboard' : '/freelancer/dashboard';
+    console.log('ProtectedRoute: Wrong role, redirecting to', dashboardPath);
     return <Navigate to={dashboardPath} replace />;
   }
 
+  console.log('ProtectedRoute: Rendering children');
   return children;
 };
 

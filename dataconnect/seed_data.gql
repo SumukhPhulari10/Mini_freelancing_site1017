@@ -1,0 +1,101 @@
+mutation CreateDemoData @transaction @auth(level: PUBLIC, insecureReason: "This is seed data and can be publically inserted.") {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      email: "client1@example.com",
+      password: "hashedpassword1",
+      name: "Client One",
+      phone: "111-222-3333",
+      createdAt: "2023-01-01T10:00:00Z",
+      userType: "Client"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      email: "freelancer1@example.com",
+      password: "hashedpassword2",
+      name: "Freelancer One",
+      phone: "444-555-6666",
+      createdAt: "2023-01-02T11:00:00Z",
+      userType: "Freelancer"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440002",
+      email: "freelancer2@example.com",
+      password: "hashedpassword3",
+      name: "Freelancer Two",
+      phone: "777-888-9999",
+      createdAt: "2023-01-03T12:00:00Z",
+      userType: "Freelancer"
+    }
+  ])
+  job_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440003",
+      clientId: "550e8400-e29b-41d4-a716-446655440000",
+      title: "Website Redesign",
+      description: "Redesign our company website for better UI/UX.",
+      budget: 1500.00,
+      createdAt: "2023-01-05T13:00:00Z",
+      status: "Open"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440004",
+      clientId: "550e8400-e29b-41d4-a716-446655440000",
+      title: "Mobile App Development",
+      description: "Develop an iOS and Android application.",
+      budget: 5000.00,
+      createdAt: "2023-01-10T14:00:00Z",
+      status: "Open"
+    }
+  ])
+  skill_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440005",
+      name: "Web Development"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440006",
+      name: "Mobile Development"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440007",
+      name: "UI/UX Design"
+    }
+  ])
+  freelancerSkill_insertMany(data: [
+    {
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      skillId: "550e8400-e29b-41d4-a716-446655440005"
+    },
+    {
+      userId: "550e8400-e29b-41d4-a716-446655440001",
+      skillId: "550e8400-e29b-41d4-a716-446655440007"
+    },
+    {
+      userId: "550e8400-e29b-41d4-a716-446655440002",
+      skillId: "550e8400-e29b-41d4-a716-446655440006"
+    }
+  ])
+  jobSkill_insertMany(data: [
+    {
+      jobId: "550e8400-e29b-41d4-a716-446655440003",
+      skillId: "550e8400-e29b-41d4-a716-446655440005"
+    },
+    {
+      jobId: "550e8400-e29b-41d4-a716-446655440003",
+      skillId: "550e8400-e29b-41d4-a716-446655440007"
+    },
+    {
+      jobId: "550e8400-e29b-41d4-a716-446655440004",
+      skillId: "550e8400-e29b-41d4-a716-446655440006"
+    }
+  ])
+  application_insertMany(data: [
+    {
+      jobId: "550e8400-e29b-41d4-a716-446655440003",
+      freelancerId: "550e8400-e29b-41d4-a716-446655440001",
+      createdAt: "2023-01-06T09:00:00Z",
+      status: "Pending"
+    }
+  ])
+}

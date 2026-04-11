@@ -12,12 +12,12 @@ import {
   LogOut,
   User
 } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
+import { useFirebaseAuth } from '../firebase/FirebaseAuthContext';
 
 const Sidebar = ({ role }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout, user } = useAuth();
+  const { logout, userProfile } = useFirebaseAuth();
 
   const clientNavItems = [
     { icon: Home, label: 'Dashboard', href: '/client/dashboard' },
@@ -61,11 +61,11 @@ const Sidebar = ({ role }) => {
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center shadow-glow">
               <span className="text-sm font-bold text-white">
-                {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'U'}
+                {userProfile?.name ? userProfile.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'U'}
               </span>
             </div>
             <div>
-              <p className="font-medium text-text-primary">{user?.name || 'User'}</p>
+              <p className="font-medium text-text-primary">{userProfile?.name || 'User'}</p>
               <p className="text-sm text-text-secondary capitalize">{role}</p>
             </div>
           </div>

@@ -5,7 +5,7 @@ import {
   Briefcase, MapPin, Mail, Star, Clock, User, Building2,
   Code2, Award, Zap
 } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
+import { useFirebaseAuth } from '../firebase/FirebaseAuthContext';
 import { useNavigate } from 'react-router-dom';
 
 // Format time ago
@@ -169,15 +169,15 @@ const FreelancerDetails = ({ user }) => (
 
 // ─── Main Topbar ──────────────────────────────────────────────
 const Topbar = () => {
-  const { user, logout, notifications, unreadCount, markNotificationRead, markAllNotificationsRead } = useAuth();
+  const { user, userProfile, logout, notifications, unreadCount, markNotificationRead, markAllNotificationsRead } = useFirebaseAuth();
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const profileRef = useRef(null);
   const notifRef = useRef(null);
   const navigate = useNavigate();
 
-  const isClient = user?.role === 'client';
-  const isFreelancer = user?.role === 'freelancer';
+  const isClient = userProfile?.role === 'client';
+  const isFreelancer = userProfile?.role === 'freelancer';
 
   // Close dropdowns on outside click
   useEffect(() => {
@@ -331,13 +331,13 @@ const Topbar = () => {
                   }`}
                   whileHover={{ scale: 1.08 }}
                 >
-                  <span className="text-xs font-bold text-white">{getInitials(user?.name)}</span>
+                  <span className="text-xs font-bold text-white">{getInitials(userProfile?.name)}</span>
                 </motion.div>
 
                 {/* Name & Role */}
                 <div className="hidden md:block text-left">
-                  <p className="text-sm font-semibold text-text-primary leading-tight">{user?.name || 'User'}</p>
-                  <p className="text-xs text-text-muted capitalize leading-tight">{user?.role}</p>
+                  <p className="text-sm font-semibold text-text-primary leading-tight">{userProfile?.name || 'User'}</p>
+                  <p className="text-xs text-text-muted capitalize leading-tight">{userProfile?.role}</p>
                 </div>
                 <ChevronDown className={`w-4 h-4 text-text-muted transition-transform duration-200 ${showProfileDropdown ? 'rotate-180' : ''}`} />
               </button>
@@ -362,10 +362,10 @@ const Topbar = () => {
                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 ${
                           isClient ? 'bg-blue-500' : 'bg-primary-500'
                         }`}>
-                          <span className="text-base font-bold text-white">{getInitials(user?.name)}</span>
+                          <span className="text-base font-bold text-white">{getInitials(userProfile?.name)}</span>
                         </div>
                         <div className="min-w-0">
-                          <p className="text-base font-bold text-text-primary truncate">{user?.name}</p>
+                          <p className="text-base font-bold text-text-primary truncate">{userProfile?.name}</p>
                           <div className="flex items-center gap-2 mt-0.5">
                             <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-semibold rounded-full uppercase tracking-wide ${
                               isClient
@@ -373,7 +373,7 @@ const Topbar = () => {
                                 : 'bg-primary-500/20 text-primary-300 border border-primary-500/30'
                             }`}>
                               {isClient ? <Building2 className="w-2.5 h-2.5" /> : <Code2 className="w-2.5 h-2.5" />}
-                              {user?.role}
+                              {userProfile?.role}
                             </span>
                           </div>
                         </div>
@@ -386,8 +386,8 @@ const Topbar = () => {
                         {isClient ? '🏢 Client Profile' : '💼 Freelancer Profile'}
                       </p>
 
-                      {isClient && <ClientDetails user={user} />}
-                      {isFreelancer && <FreelancerDetails user={user} />}
+                      {isClient && <ClientDetails user={userProfile} />}
+                      {isFreelancer && <FreelancerDetails user={userProfile} />}
                     </div>
 
                     {/* ── Actions ── */}

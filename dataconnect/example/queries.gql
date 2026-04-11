@@ -1,0 +1,37 @@
+query ListAllSkills @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public as it only lists general skills.") {
+  skills {
+    id
+    name
+  }
+}
+
+query GetCurrentUserProfile @auth(level: USER) {
+  user(key: {id_expr: "auth.uid"}) {
+    id
+    email
+    name
+    phone
+    userType
+    createdAt
+  }
+}
+
+mutation CreateNewJob($title: String!, $description: String!, $budget: Float!, $status: String!) @auth(level: USER) {
+  job_insert(data: {
+    clientId_expr: "auth.uid",
+    title: $title,
+    description: $description,
+    budget: $budget,
+    createdAt_expr: "request.time",
+    status: $status
+  })
+}
+
+mutation ApplyForJob($jobId: UUID!) @auth(level: USER) {
+  application_insert(data: {
+    jobId: $jobId,
+    freelancerId_expr: "auth.uid",
+    createdAt_expr: "request.time",
+    status: "PENDING"
+  })
+}

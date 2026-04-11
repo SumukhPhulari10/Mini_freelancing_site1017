@@ -1,0 +1,38 @@
+type User @table {
+  email: String!
+  password: String!
+  name: String!
+  phone: String!
+  createdAt: Timestamp!
+  userType: String!
+}
+
+type Skill @table {
+  name: String!
+}
+
+type FreelancerSkill @table(key: ["user", "skill"]) {
+  user: User!
+  skill: Skill!
+}
+
+type Job @table {
+  client: User!
+  title: String!
+  description: String!
+  budget: Float!
+  createdAt: Timestamp!
+  status: String!
+}
+
+type JobSkill @table(key: ["job", "skill"]) {
+  job: Job!
+  skill: Skill!
+}
+
+type Application @table(key: ["job", "freelancer"]) {
+  job: Job!
+  freelancer: User!
+  createdAt: Timestamp!
+  status: String!
+}
