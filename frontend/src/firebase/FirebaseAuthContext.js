@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  sendEmailVerification,
   doc,
   setDoc,
   getDoc,
@@ -185,6 +186,10 @@ export const FirebaseAuthProvider = ({ children }) => {
       // Save user profile to Firestore
       const profile = await saveUserProfile(firebaseUser, userData);
       
+      // Send email verification
+      await sendEmailVerification(firebaseUser);
+      console.log('Verification email sent to:', email);
+      
       setUser(firebaseUser);
       setUserProfile(profile);
       
@@ -192,7 +197,11 @@ export const FirebaseAuthProvider = ({ children }) => {
       const userNotifications = generateNotifications(profile.role, profile);
       setNotifications(userNotifications);
       
-      return profile;
+      return { 
+        profile, 
+        emailSent: true,
+        message: 'Please verify your email to continue. Check your spam folder.'
+      };
     } catch (err) {
       setError(err.message);
       throw err;
@@ -210,11 +219,26 @@ export const FirebaseAuthProvider = ({ children }) => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
 
+      // Check if email is verified
+      if (!firebaseUser.emailVerified) {
+        // Get user profile for role info
+        const profile = await getUserProfile(firebaseUser.uid);
+        
+        setUser(firebaseUser);
+        setUserProfile(profile);
+        
+        return { 
+          profile, 
+          emailVerified: false, 
+          emailSent: false 
+        };
+      }
+
       // Get user profile from Firestore
       const profile = await getUserProfile(firebaseUser.uid);
       
       if (!profile) {
-        throw new Error('User profile not found');
+        throw new Error('User profile not found. Please register first.');
       }
       
       setUser(firebaseUser);
@@ -224,7 +248,7 @@ export const FirebaseAuthProvider = ({ children }) => {
       const userNotifications = generateNotifications(profile.role, profile);
       setNotifications(userNotifications);
       
-      return profile;
+      return { profile, emailVerified: true };
     } catch (err) {
       setError(err.message);
       throw err;
@@ -326,8 +350,8 @@ export const FirebaseAuthProvider = ({ children }) => {
             setNotifications(userNotifications);
             console.log('Firebase Auth: Notifications generated');
           } else {
-            setError('User profile not found. Please register first.');
-            console.log('Firebase Auth: No profile found');
+            // Don't set error - profile might be null during signup
+            console.log('Firebase Auth: No profile found (user may be signing up)');
           }
         } catch (err) {
           console.error('Firebase Auth: Error loading profile:', err);

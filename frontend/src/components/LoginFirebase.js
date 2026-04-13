@@ -56,12 +56,19 @@ const LoginFirebase = () => {
     }
 
     try {
-      const user = await login(formData.email, formData.password);
+      const result = await login(formData.email, formData.password);
+      
+      // Check if email is verified
+      if (!result.emailVerified) {
+        // Redirect to email verification page
+        navigate('/verify-email');
+        return;
+      }
       
       // Redirect to role-specific dashboard
-      if (user.role === 'client') {
+      if (result.profile?.role === 'client') {
         navigate('/client/dashboard');
-      } else if (user.role === 'freelancer') {
+      } else if (result.profile?.role === 'freelancer') {
         navigate('/freelancer/dashboard');
       } else {
         navigate('/dashboard');

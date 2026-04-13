@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useFirebaseAuth } from '../firebase/FirebaseAuthContext';
 
-const ProtectedRoute = ({ children, requiredRole }) => {
+const ProtectedRoute = ({ children, requiredRole, requireVerification = true }) => {
   const { isAuthenticated, isLoading, user, userProfile } = useFirebaseAuth();
   const [showLoading, setShowLoading] = useState(true);
 
   // Debug logging
-  console.log('ProtectedRoute:', { isAuthenticated, isLoading, userRole: userProfile?.role, requiredRole });
+  console.log('ProtectedRoute:', { 
+    isAuthenticated, 
+    isLoading, 
+    emailVerified: user?.emailVerified,
+    userRole: userProfile?.role, 
+    requiredRole 
+  });
 
   // Safety timeout - stop showing loading after 3 seconds max
   useEffect(() => {
@@ -32,6 +38,12 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   if (!isAuthenticated) {
     console.log('ProtectedRoute: Not authenticated, redirecting to login');
     return <Navigate to="/login" replace />;
+  }
+
+  // Check email verification if required
+  if (requireVerification && !user?.emailVerified) {
+    console.log('ProtectedRoute: Email not verified, redirecting to verify-email');
+    return <Navigate to="/verify-email" replace />;
   }
 
   if (requiredRole && userProfile?.role !== requiredRole) {

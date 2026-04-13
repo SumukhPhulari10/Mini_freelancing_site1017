@@ -66,6 +66,8 @@ import LoginFirebase from './components/LoginFirebase';
 
 import RegisterFirebase from './components/RegisterFirebase';
 
+import VerifyEmail from './pages/VerifyEmail';
+
 
 
 function App() {
@@ -111,6 +113,8 @@ function App() {
               <Route path="/login" element={<LoginFirebase />} />
 
               <Route path="/register" element={<RegisterFirebase />} />
+
+              <Route path="/verify-email" element={<VerifyEmail />} />
 
 
 

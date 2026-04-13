@@ -27,6 +27,7 @@ const RegisterFirebase = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [newSkill, setNewSkill] = useState('');
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState(null);
   const navigate = useNavigate();
   const { signup, signInWithGoogle, isLoading, error } = useFirebaseAuth();
 
@@ -120,7 +121,7 @@ const RegisterFirebase = () => {
     }
 
     try {
-      await signup(formData.email, formData.password, {
+      const result = await signup(formData.email, formData.password, {
         name: formData.name,
         role: formData.role,
         phone: formData.phone,
@@ -136,7 +137,19 @@ const RegisterFirebase = () => {
         availability: formData.availability
       });
       
-      navigate('/login');
+      // Show success message
+      if (result.message) {
+        setSuccessMessage(result.message);
+      }
+      
+      // Redirect to email verification page after signup
+      if (result.emailSent) {
+        setTimeout(() => {
+          navigate('/verify-email');
+        }, 2000); // Wait 2 seconds to show the message
+      } else {
+        navigate('/login');
+      }
     } catch (err) {
       console.error('Registration failed:', err);
     }
@@ -611,6 +624,17 @@ const RegisterFirebase = () => {
                 className="bg-red-500/10 border border-red-500/25 rounded-lg p-3"
               >
                 <p className="text-sm text-red-400">{error}</p>
+              </motion.div>
+            )}
+
+            {/* Success Message */}
+            {successMessage && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-green-500/10 border border-green-500/25 rounded-lg p-3"
+              >
+                <p className="text-sm text-green-400">{successMessage}</p>
               </motion.div>
             )}
 
