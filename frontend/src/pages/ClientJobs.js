@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Plus, Eye, MessageSquare, Briefcase } from 'lucide-react';
+import { Search, Plus, Eye, MessageSquare, Briefcase, X } from 'lucide-react';
 import Button from '../components/Button';
 import { JobCardSkeleton } from '../components/LoadingSkeleton';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ const ClientJobs = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [selectedViewJob, setSelectedViewJob] = useState(null);
   const navigate = useNavigate();
 
   const mockJobs = [
@@ -21,7 +22,11 @@ const ClientJobs = () => {
   ];
 
   React.useEffect(() => {
-    setTimeout(() => { setJobs(mockJobs); setLoading(false); }, 1000);
+    setTimeout(() => { 
+      const localJobs = JSON.parse(localStorage.getItem('localJobs') || '[]');
+      setJobs([...localJobs, ...mockJobs]); 
+      setLoading(false); 
+    }, 1000);
   }, []);
 
   const filteredJobs = jobs.filter(job => {
@@ -126,7 +131,7 @@ const ClientJobs = () => {
                   </span>
                 </div>
                 <div className="text-lg font-bold text-blue-400">
-                  ${job.budget.toLocaleString()}
+                  ₹{job.budget.toLocaleString('en-IN')}
                 </div>
               </div>
 
@@ -155,12 +160,12 @@ const ClientJobs = () => {
 
               {/* Actions */}
               <div className="flex gap-2 mt-auto">
-                <Button variant="secondary" size="sm" className="flex-1">
+                <Button variant="secondary" size="sm" className="flex-1" onClick={() => setSelectedViewJob(job)}>
                   <Eye className="w-3.5 h-3.5 mr-1 inline" />
                   View
                 </Button>
                 {job.status === 'active' && (
-                  <Button size="sm" className="flex-1">
+                  <Button size="sm" className="flex-1" onClick={() => navigate(`/client/bids?jobId=${job.id}`)}>
                     <MessageSquare className="w-3.5 h-3.5 mr-1 inline" />
                     Bids ({job.bids})
                   </Button>
@@ -179,6 +184,73 @@ const ClientJobs = () => {
           <p className="text-text-muted mb-5 text-sm">Try adjusting your search or filters</p>
           <Button onClick={() => { setSearchTerm(''); setStatusFilter('all'); }}>Clear Filters</Button>
         </motion.div>
+      )}
+
+      {/* Job Details Modal */}
+      {selectedViewJob && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-dark-secondary border border-gray-800 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col"
+          >
+            <div className="p-6 border-b border-gray-800 flex justify-between items-center flex-shrink-0">
+              <h2 className="text-xl font-bold text-text-primary">Job Details</h2>
+              <button 
+                onClick={() => setSelectedViewJob(null)}
+                className="p-1.5 hover:bg-white/5 rounded-lg text-text-muted transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-6 overflow-y-auto">
+              <div>
+                <h3 className="text-2xl font-bold text-blue-400 mb-2">{selectedViewJob.title}</h3>
+                <div className="flex items-center gap-3">
+                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusStyle(selectedViewJob.status)}`}>
+                    {selectedViewJob.status.charAt(0).toUpperCase() + selectedViewJob.status.slice(1)}
+                  </span>
+                  <span className="text-sm text-text-muted">Posted: {selectedViewJob.postedDate}</span>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">Description</h4>
+                <p className="text-text-secondary whitespace-pre-wrap leading-relaxed">{selectedViewJob.description}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-dark-primary/50 p-4 rounded-xl border border-gray-800">
+                  <div className="text-sm text-text-muted mb-1">Budget</div>
+                  <div className="text-lg font-semibold text-text-primary">₹{selectedViewJob.budget.toLocaleString('en-IN')}</div>
+                </div>
+                <div className="bg-dark-primary/50 p-4 rounded-xl border border-gray-800">
+                  <div className="text-sm text-text-muted mb-1">Deadline</div>
+                  <div className="text-lg font-semibold text-text-primary">{selectedViewJob.deadline}</div>
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-text-muted uppercase tracking-wider mb-2">Required Skills</h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedViewJob.skills.map(skill => (
+                    <span key={skill} className="px-3 py-1 bg-primary-500/15 text-primary-400 text-sm rounded-full border border-primary-500/25">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="p-6 border-t border-gray-800 flex justify-end gap-3 flex-shrink-0">
+              <Button variant="secondary" onClick={() => setSelectedViewJob(null)}>Close</Button>
+              {selectedViewJob.status === 'active' && (
+                <Button onClick={() => navigate(`/client/bids?jobId=${selectedViewJob.id}`)}>
+                  View {selectedViewJob.bids} Bids
+                </Button>
+              )}
+            </div>
+          </motion.div>
+        </div>
       )}
     </div>
   );

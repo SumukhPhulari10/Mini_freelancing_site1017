@@ -30,15 +30,9 @@ const Navbar = () => {
 
 
   const navItems = [
-
     { name: 'Home', icon: Home, href: '#home' },
-
     { name: 'Browse Jobs', icon: Briefcase, href: '#jobs' },
-
-    { name: 'Post Job', icon: PlusCircle, href: '#post-job' },
-
     { name: 'Dashboard', icon: User, href: isAuthenticated ? (user?.role === 'client' ? '/client/dashboard' : '/freelancer/dashboard') : '#' },
-
   ];
 
 

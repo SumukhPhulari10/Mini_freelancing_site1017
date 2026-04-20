@@ -618,7 +618,7 @@ const ClientSettings = () => {
 
           <div>
 
-            <label className="block text-xs text-text-muted mb-1.5">Minimum ($)</label>
+            <label className="block text-xs text-text-muted mb-1.5">Minimum (₹)</label>
 
             <input
 
@@ -638,7 +638,7 @@ const ClientSettings = () => {
 
           <div>
 
-            <label className="block text-xs text-text-muted mb-1.5">Maximum ($)</label>
+            <label className="block text-xs text-text-muted mb-1.5">Maximum (₹)</label>
 
             <input
 

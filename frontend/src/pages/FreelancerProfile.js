@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { motion } from 'framer-motion';
 
-import { User, Mail, Phone, MapPin, Star, Calendar, Award, CheckCircle, Edit2, X, Save, Plus, ExternalLink, Briefcase, DollarSign, GraduationCap, Clock } from 'lucide-react';
+import { User, Mail, MapPin, Star, Calendar, Award, CheckCircle, Edit2, X, Save, Plus, ExternalLink, Briefcase, DollarSign, GraduationCap, Clock } from 'lucide-react';
 
 import Button from '../components/Button';
 
@@ -22,7 +22,7 @@ const FreelancerProfile = () => {
 
     email: user?.email || '',
 
-    phone: userProfile?.phone || '',
+
 
     location: userProfile?.location || '',
 
@@ -118,7 +118,7 @@ const FreelancerProfile = () => {
 
       email: user?.email || '',
 
-      phone: user?.phone || '',
+
 
       location: user?.location || '',
 
@@ -412,35 +412,7 @@ const FreelancerProfile = () => {
 
                 
 
-                <div className="flex items-center text-text-secondary">
 
-                  <Phone className="w-4 h-4 mr-3 text-primary-400 flex-shrink-0" />
-
-                  {isEditing ? (
-
-                    <input
-
-                      type="tel"
-
-                      name="phone"
-
-                      value={formData.phone}
-
-                      onChange={handleInputChange}
-
-                      placeholder="+1 (555) 123-4567"
-
-                      className={`${inlineInputClass} flex-1 text-sm`}
-
-                    />
-
-                  ) : (
-
-                    <span className="text-sm">{formData.phone || 'Not provided'}</span>
-
-                  )}
-
-                </div>
 
                 
 
@@ -512,7 +484,7 @@ const FreelancerProfile = () => {
 
                 <span className="text-text-secondary">Total Earnings</span>
 
-                <span className="font-medium text-green-400">$45,280</span>
+                <span className="font-medium text-green-400">₹37,83,400</span>
 
               </div>
 
@@ -824,7 +796,7 @@ const FreelancerProfile = () => {
 
                 <div className="flex items-center gap-2">
 
-                  <span className="text-text-secondary font-medium">$</span>
+                  <span className="text-text-secondary font-medium">₹</span>
 
                   <input
 
@@ -846,7 +818,7 @@ const FreelancerProfile = () => {
 
               ) : (
 
-                <p className="text-2xl font-bold text-primary-400">${formData.hourlyRate}/hour</p>
+                <p className="text-2xl font-bold text-primary-400">₹{formData.hourlyRate}/hour</p>
 
               )}
 

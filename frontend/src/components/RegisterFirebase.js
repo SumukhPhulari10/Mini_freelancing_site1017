@@ -524,7 +524,7 @@ const RegisterFirebase = () => {
 
                   <div>
                     <label htmlFor="hourlyRate" className="block text-sm font-medium text-text-primary mb-2">
-                      Hourly Rate ($)
+                      Hourly Rate (\u20b9)
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

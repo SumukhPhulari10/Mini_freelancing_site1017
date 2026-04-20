@@ -120,7 +120,7 @@ const JobListings = () => {
   };
 
   return (
-    <section id="jobs" className="py-20 bg-gray-50">
+    <section id="jobs" className="py-20 bg-dark-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -130,17 +130,17 @@ const JobListings = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-bold text-text-primary mb-4">
             Browse Available Jobs
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-text-secondary max-w-2xl mx-auto">
             Find the perfect opportunity that matches your skills and expertise
           </p>
         </motion.div>
 
         {/* Search and Filters */}
         <motion.div
-          className="bg-white rounded-xl shadow-sm p-6 mb-8"
+          className="bg-dark-secondary border border-gray-800 rounded-xl shadow-sm p-6 mb-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -153,7 +153,7 @@ const JobListings = () => {
               <input
                 type="text"
                 placeholder="Search jobs, skills, or companies..."
-                className="input-field pl-10"
+                className="input-field pl-10 bg-dark-primary border-gray-700 text-text-primary w-full px-4 py-2 rounded-lg focus:outline-none focus:border-primary-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -162,7 +162,8 @@ const JobListings = () => {
             {/* Category Filter */}
             <div className="relative">
               <Button
-                className="flex items-center gap-2 bg-black text-white border border-gray-600 hover:bg-gray-800"
+                variant="secondary"
+                className="flex items-center gap-2 bg-dark-primary text-text-primary border border-gray-700 hover:bg-dark-tertiary"
                 onClick={() => setShowFilters(!showFilters)}
               >
                 <Filter className="w-4 h-4" />
@@ -173,7 +174,7 @@ const JobListings = () => {
               {/* Dropdown */}
               {showFilters && (
                 <motion.div
-                  className="absolute top-full mt-2 w-48 bg-black border border-gray-600 rounded-lg shadow-glow z-10"
+                  className="absolute top-full right-0 mt-2 w-48 bg-dark-secondary border border-gray-800 rounded-lg shadow-glow z-10"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
@@ -181,7 +182,7 @@ const JobListings = () => {
                   {categories.map((category) => (
                     <button
                       key={category.value}
-                      className="w-full text-left px-4 py-2 bg-black text-white border border-gray-600 hover:bg-gray-800 transition-colors"
+                      className="w-full text-left px-4 py-2 bg-dark-secondary text-text-secondary border-b border-gray-800 last:border-0 hover:bg-dark-tertiary hover:text-text-primary transition-colors"
                       onClick={() => {
                         setSelectedCategory(category.value);
                         setShowFilters(false);
@@ -221,7 +222,7 @@ const JobListings = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              <p className="text-gray-500 text-lg">No jobs found matching your criteria.</p>
+              <p className="text-text-muted text-lg">No jobs found matching your criteria.</p>
               <Button
                 variant="secondary"
                 className="mt-4"
@@ -244,7 +245,7 @@ const JobListings = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Button className="px-8 bg-black text-white border border-gray-600 hover:bg-gray-800">
+            <Button variant="secondary" className="px-8 bg-dark-secondary text-text-primary border border-gray-700 hover:bg-dark-tertiary">
               Load More Jobs
             </Button>
           </motion.div>

@@ -5,7 +5,7 @@ import {
   Home, 
   Briefcase, 
   FileText, 
-  DollarSign, 
+  IndianRupee, 
   Users, 
   MessageSquare, 
   Settings, 
@@ -23,7 +23,7 @@ const Sidebar = ({ role }) => {
     { icon: Home, label: 'Dashboard', href: '/client/dashboard' },
     { icon: Briefcase, label: 'My Jobs', href: '/client/jobs' },
     { icon: FileText, label: 'Post Job', href: '/client/post-job' },
-    { icon: DollarSign, label: 'Bids', href: '/client/bids' },
+    { icon: IndianRupee, label: 'Bids', href: '/client/bids' },
     { icon: MessageSquare, label: 'Messages', href: '/client/messages' },
     { icon: Settings, label: 'Settings', href: '/client/settings' },
   ];
@@ -32,8 +32,7 @@ const Sidebar = ({ role }) => {
     { icon: Home, label: 'Dashboard', href: '/freelancer/dashboard' },
     { icon: Briefcase, label: 'Browse Jobs', href: '/freelancer/jobs' },
     { icon: FileText, label: 'My Bids', href: '/freelancer/bids' },
-    { icon: DollarSign, label: 'Earnings', href: '/freelancer/earnings' },
-    { icon: User, label: 'Profile', href: '/freelancer/profile' },
+    { icon: IndianRupee, label: 'Earnings', href: '/freelancer/earnings' },
     { icon: MessageSquare, label: 'Messages', href: '/freelancer/messages' },
     { icon: Settings, label: 'Settings', href: '/freelancer/settings' },
   ];

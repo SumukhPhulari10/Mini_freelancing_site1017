@@ -44,7 +44,7 @@ const FreelancerSettings = () => {
 
     bio: user?.bio || '',
 
-    phone: user?.phone || '',
+    phone: '',
 
   });
 
@@ -106,7 +106,7 @@ const FreelancerSettings = () => {
 
         bio: user.bio || '',
 
-        phone: user.phone || '',
+        phone: '',
 
       });
 
@@ -448,25 +448,7 @@ const FreelancerSettings = () => {
 
         </div>
 
-        <div>
 
-          <label className={labelClass}>Phone Number</label>
-
-          <input
-
-            type="tel"
-
-            value={profileData.phone}
-
-            onChange={(e) => setProfileData(prev => ({ ...prev, phone: e.target.value }))}
-
-            className={inputClass}
-
-            placeholder="+1 (555) 123-4567"
-
-          />
-
-        </div>
 
         <div>
 
@@ -690,7 +672,7 @@ const FreelancerSettings = () => {
 
           <div className="relative">
 
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted font-medium">$</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted font-medium">₹</span>
 
             <input
 
@@ -894,7 +876,7 @@ const FreelancerSettings = () => {
 
           <div className="relative">
 
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted">$</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted">₹</span>
 
             <input
 

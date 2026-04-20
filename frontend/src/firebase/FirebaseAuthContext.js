@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { 
-  auth, 
-  db, 
-  googleProvider, 
+import {
+  auth,
+  db,
+  googleProvider,
   signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -30,7 +30,7 @@ export const useFirebaseAuth = () => {
 // Generate notifications based on user role
 const generateNotifications = (role, userData) => {
   const now = new Date();
-  
+
   if (role === 'client') {
     return [
       {
@@ -104,13 +104,13 @@ export const FirebaseAuthProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  
+
   // Save user profile to Firestore
   const saveUserProfile = async (firebaseUser, additionalData = {}) => {
     try {
       const userRef = doc(db, 'users', firebaseUser.uid);
       const userDoc = await getDoc(userRef);
-      
+
       const profileData = {
         uid: firebaseUser.uid,
         email: firebaseUser.email,
@@ -145,7 +145,7 @@ export const FirebaseAuthProvider = ({ children }) => {
     try {
       const userRef = doc(db, 'users', uid);
       const userDoc = await getDoc(userRef);
-      
+
       if (userDoc.exists()) {
         return userDoc.data();
       }
@@ -164,7 +164,7 @@ export const FirebaseAuthProvider = ({ children }) => {
         ...updates,
         updatedAt: new Date().toISOString()
       });
-      
+
       // Update local state
       setUserProfile(prev => ({ ...prev, ...updates }));
     } catch (err) {
@@ -191,7 +191,7 @@ export const FirebaseAuthProvider = ({ children }) => {
       
       setUser(firebaseUser);
       setUserProfile(profile);
-      
+
       // Generate notifications
       const userNotifications = generateNotifications(profile.role, profile);
       setNotifications(userNotifications);
@@ -235,14 +235,14 @@ export const FirebaseAuthProvider = ({ children }) => {
 
       // Get user profile from Firestore
       const profile = await getUserProfile(firebaseUser.uid);
-      
+
       if (!profile) {
         throw new Error('User profile not found. Please register first.');
       }
-      
+
       setUser(firebaseUser);
       setUserProfile(profile);
-      
+
       // Generate notifications
       const userNotifications = generateNotifications(profile.role, profile);
       setNotifications(userNotifications);
@@ -267,21 +267,21 @@ export const FirebaseAuthProvider = ({ children }) => {
 
       // Check if user profile exists
       let profile = await getUserProfile(firebaseUser.uid);
-      
+
       if (!profile) {
         // Create new profile for Google user
         profile = await saveUserProfile(firebaseUser, {
           role: 'freelancer' // Default role for Google sign-in
         });
       }
-      
+
       setUser(firebaseUser);
       setUserProfile(profile);
-      
+
       // Generate notifications
       const userNotifications = generateNotifications(profile.role, profile);
       setNotifications(userNotifications);
-      
+
       return profile;
     } catch (err) {
       setError(err.message);
@@ -319,7 +319,7 @@ export const FirebaseAuthProvider = ({ children }) => {
 
   // Mark notification as read
   const markNotificationRead = (notifId) => {
-    setNotifications(prev => 
+    setNotifications(prev =>
       prev.map(n => n.id === notifId ? { ...n, read: true } : n)
     );
   };
@@ -334,16 +334,16 @@ export const FirebaseAuthProvider = ({ children }) => {
     console.log('Firebase Auth: Setting up auth state listener...');
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       console.log('Firebase Auth: State changed, user:', firebaseUser ? firebaseUser.uid : 'null');
-      
+
       if (firebaseUser) {
         try {
           console.log('Firebase Auth: Loading user profile...');
           const profile = await getUserProfile(firebaseUser.uid);
           console.log('Firebase Auth: Profile loaded:', profile);
-          
+
           setUser(firebaseUser);
           setUserProfile(profile);
-          
+
           if (profile) {
             const userNotifications = generateNotifications(profile.role, profile);
             setNotifications(userNotifications);
@@ -363,7 +363,7 @@ export const FirebaseAuthProvider = ({ children }) => {
         setNotifications([]);
         setError(null);
       }
-      
+
       console.log('Firebase Auth: Setting isLoading=false, isInitialized=true');
       setIsLoading(false);
       setIsInitialized(true);

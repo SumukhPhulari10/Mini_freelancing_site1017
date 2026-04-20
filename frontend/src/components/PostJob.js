@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { DollarSign, FileText, Tag, Briefcase, Plus, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 
 const PostJob = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -69,23 +71,28 @@ const PostJob = () => {
 
     // Simulate API call
     setTimeout(() => {
+      const newJob = {
+        id: Date.now(),
+        title: formData.title,
+        description: formData.description,
+        budget: Number(formData.budget),
+        status: 'active',
+        bids: 0,
+        postedDate: new Date().toISOString().split('T')[0],
+        deadline: 'TBD',
+        skills: formData.skills.length > 0 ? formData.skills : ['General']
+      };
+
+      const existingJobs = JSON.parse(localStorage.getItem('localJobs') || '[]');
+      localStorage.setItem('localJobs', JSON.stringify([newJob, ...existingJobs]));
+
       setIsSubmitting(false);
       setShowSuccess(true);
       
-      // Reset form after 3 seconds
+      // Redirect to My Jobs
       setTimeout(() => {
-        setFormData({
-          title: '',
-          description: '',
-          budget: '',
-          duration: '',
-          location: '',
-          category: '',
-          skills: [],
-          newSkill: ''
-        });
-        setShowSuccess(false);
-      }, 3000);
+        navigate('/client/jobs');
+      }, 1500);
     }, 1500);
   };
 
@@ -179,7 +186,7 @@ const PostJob = () => {
               <div>
                 <label className="block text-sm font-medium text-text-secondary mb-2">
                   <DollarSign className="inline w-4 h-4 mr-2" />
-                  Budget ($)
+                  Budget (\u20b9)
                 </label>
                 <input
                   type="number"

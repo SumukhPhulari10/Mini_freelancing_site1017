@@ -104,7 +104,7 @@ const ClientDashboard = () => {
 
       bids: 12,
 
-      budget: '$5,000',
+      budget: '₹4,17,000',
 
       posted: '2 days ago'
 
@@ -120,7 +120,7 @@ const ClientDashboard = () => {
 
       bids: 8,
 
-      budget: '$3,500',
+      budget: '₹2,92,000',
 
       posted: '5 days ago'
 
@@ -136,7 +136,7 @@ const ClientDashboard = () => {
 
       bids: 15,
 
-      budget: '$1,500',
+      budget: '₹1,25,000',
 
       posted: '1 week ago'
 

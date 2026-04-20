@@ -87,23 +87,13 @@ function App() {
               {/* Landing Page Routes */}
 
               <Route path="/" element={
-
                 <>
-
                   <Navbar />
-
                   <HeroSection />
-
                   <JobListings />
-
-                  <PostJob />
-
                   <FreelancerProfiles />
-
                   <Footer />
-
                 </>
-
               } />
 
 
@@ -152,25 +142,29 @@ function App() {
 
 
 
-              {/* Freelancer Dashboard Routes */}
-
-              <Route path="/freelancer/*" element={
-
+              {/* Freelancer Profile Route */}
+              <Route path="/freelancer/profile" element={
                 <ProtectedRoute requiredRole="freelancer">
+                  <div className="min-h-screen bg-dark-primary flex flex-col">
+                    <Navbar />
+                    <main className="flex-1 p-6 md:p-10 max-w-6xl mx-auto w-full mt-4">
+                      <FreelancerProfile />
+                    </main>
+                  </div>
+                </ProtectedRoute>
+              } />
 
+              {/* Freelancer Dashboard Routes */}
+              <Route path="/freelancer/*" element={
+                <ProtectedRoute requiredRole="freelancer">
                   <DashboardLayout role="freelancer">
-
                     <Routes>
-
                       <Route path="dashboard" element={<FreelancerDashboard />} />
-
                       <Route path="jobs" element={<FreelancerJobs />} />
 
                       <Route path="bids" element={<FreelancerBids />} />
 
                       <Route path="earnings" element={<div>Earnings Page</div>} />
-
-                      <Route path="profile" element={<FreelancerProfile />} />
 
                       <Route path="messages" element={<div>Messages Page</div>} />
 

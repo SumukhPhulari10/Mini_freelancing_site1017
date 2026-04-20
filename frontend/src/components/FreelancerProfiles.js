@@ -153,7 +153,7 @@ const FreelancerProfiles = () => {
 
         {/* Filters */}
         <motion.div
-          className="bg-white rounded-xl shadow-sm p-6 mb-8"
+          className="bg-dark-secondary border border-gray-800 rounded-xl shadow-sm p-6 mb-8"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -166,7 +166,7 @@ const FreelancerProfiles = () => {
               <input
                 type="text"
                 placeholder="Search freelancers, skills, or expertise..."
-                className="input-field pl-10"
+                className="input-field pl-10 bg-dark-primary border-gray-700 text-text-primary w-full px-4 py-2 rounded-lg focus:outline-none focus:border-primary-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -175,7 +175,7 @@ const FreelancerProfiles = () => {
             {/* Skill Filter */}
             <div className="flex gap-2">
               <select
-                className="input-field"
+                className="input-field bg-dark-primary border-gray-700 text-text-primary rounded-lg focus:outline-none focus:border-primary-500"
                 value={selectedSkill}
                 onChange={(e) => setSelectedSkill(e.target.value)}
               >
@@ -188,7 +188,7 @@ const FreelancerProfiles = () => {
 
               {/* Sort By */}
               <select
-                className="input-field"
+                className="input-field bg-dark-primary border-gray-700 text-text-primary rounded-lg focus:outline-none focus:border-primary-500"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
               >
@@ -248,7 +248,7 @@ const FreelancerProfiles = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <Button className="px-8 bg-black text-white border border-gray-600 hover:bg-gray-800">
+            <Button variant="secondary" className="px-8 bg-dark-secondary text-text-primary border border-gray-700 hover:bg-dark-tertiary">
               Load More Freelancers
             </Button>
           </motion.div>

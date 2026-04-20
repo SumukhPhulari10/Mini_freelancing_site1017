@@ -60,7 +60,7 @@ const FreelancerDashboard = () => {
 
       title: 'Total Earnings',
 
-      value: '$45,280',
+      value: '₹37,83,400',
 
       change: '+18%',
 
@@ -100,7 +100,7 @@ const FreelancerDashboard = () => {
 
       jobTitle: 'Full Stack Web Developer',
 
-      bidAmount: '$4,800',
+      bidAmount: '₹4,00,000',
 
       status: 'pending',
 
@@ -114,7 +114,7 @@ const FreelancerDashboard = () => {
 
       jobTitle: 'Mobile App UI Design',
 
-      bidAmount: '$3,200',
+      bidAmount: '₹2,67,200',
 
       status: 'accepted',
 
@@ -128,7 +128,7 @@ const FreelancerDashboard = () => {
 
       jobTitle: 'Content Writing Project',
 
-      bidAmount: '$1,500',
+      bidAmount: '₹1,25,000',
 
       status: 'rejected',
 
