@@ -14,7 +14,7 @@ const FreelancerBids = () => {
     {
       id: 1,
       jobTitle: 'Full Stack Web Developer Needed',
-      companyName: 'TechStart Inc.',
+      workingProfession: 'TechStart Inc.',
       bidAmount: 4800,
       deliveryTime: '3 weeks',
       status: 'pending',
@@ -25,7 +25,7 @@ const FreelancerBids = () => {
     {
       id: 2,
       jobTitle: 'Mobile App UI/UX Designer',
-      companyName: 'FitLife Studios',
+      workingProfession: 'FitLife Studios',
       bidAmount: 3200,
       deliveryTime: '2 weeks',
       status: 'accepted',
@@ -36,7 +36,7 @@ const FreelancerBids = () => {
     {
       id: 3,
       jobTitle: 'Content Writing Project',
-      companyName: 'TechMedia Group',
+      workingProfession: 'TechMedia Group',
       bidAmount: 1500,
       deliveryTime: '1 month',
       status: 'rejected',
@@ -47,7 +47,7 @@ const FreelancerBids = () => {
     {
       id: 4,
       jobTitle: 'React Native Mobile App',
-      companyName: 'QuickEats',
+      workingProfession: 'QuickEats',
       bidAmount: 7500,
       deliveryTime: '4 months',
       status: 'pending',
@@ -58,7 +58,7 @@ const FreelancerBids = () => {
     {
       id: 5,
       jobTitle: 'Digital Marketing Specialist',
-      companyName: 'GrowthHackers',
+      workingProfession: 'GrowthHackers',
       bidAmount: 2200,
       deliveryTime: '6 weeks',
       status: 'accepted',
@@ -78,7 +78,7 @@ const FreelancerBids = () => {
   const filteredBids = bids.filter(bid => {
     const matchesSearch =
       bid.jobTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      bid.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      bid.workingProfession.toLowerCase().includes(searchTerm.toLowerCase()) ||
       bid.coverLetter.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || bid.status === statusFilter;
     return matchesSearch && matchesStatus;
@@ -205,7 +205,7 @@ const FreelancerBids = () => {
                       {getStatusText(bid.status)}
                     </span>
                   </div>
-                  <p className="text-sm text-text-muted">{bid.companyName}</p>
+                  <p className="text-sm text-text-muted">{bid.workingProfession}</p>
                 </div>
                 <div className="text-right flex-shrink-0">
                   <div className="text-xl font-bold text-primary-400">${bid.bidAmount.toLocaleString()}</div>

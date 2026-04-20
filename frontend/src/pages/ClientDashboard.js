@@ -168,7 +168,7 @@ const ClientDashboard = () => {
 
   const firstName = user?.name ? user.name.split(' ')[0] : 'Client';
 
-  const companyName = user?.companyName;
+  const workingProfession = user?.workingProfession;
 
 
 
@@ -210,9 +210,9 @@ const ClientDashboard = () => {
 
             <p className="text-text-secondary mt-1">
 
-              {companyName
+              {workingProfession
 
-                ? <>Managing jobs for <span className="text-blue-400 font-medium">{companyName}</span></>
+                ? <>Managing jobs as <span className="text-blue-400 font-medium">{workingProfession}</span></>
 
                 : 'Manage your jobs and track progress'}
 

@@ -158,10 +158,9 @@ export const AuthProvider = ({ children }) => {
       email: userData.email,
       avatar: null,
       // Client specific
-      companyName: userData.companyName || '',
+      workingProfession: userData.workingProfession || '',
       workType: userData.workType || '',
       location: userData.location || '',
-      phone: userData.phone || '',
       // Freelancer specific
       skills: userData.skills || [],
       experience: userData.experience || '',
@@ -202,10 +201,9 @@ export const AuthProvider = ({ children }) => {
             name: userData.name || userData.email.split('@')[0],
             email: userData.email,
             avatar: null,
-            companyName: userData.companyName || '',
+            workingProfession: userData.workingProfession || '',
             workType: userData.workType || '',
             location: userData.location || '',
-            phone: userData.phone || '',
             skills: userData.skills || [],
             experience: userData.experience || '',
             portfolio: userData.portfolio || '',

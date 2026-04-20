@@ -8,7 +8,7 @@ import {
 
   Save, Eye, EyeOff, CheckCircle, AlertTriangle,
 
-  MapPin, Phone, Globe, FileText, DollarSign, Clock, ChevronRight
+  MapPin, Globe, FileText, DollarSign, Clock, ChevronRight
 
 } from 'lucide-react';
 
@@ -42,8 +42,6 @@ const ClientSettings = () => {
 
     bio: user?.bio || '',
 
-    phone: user?.phone || '',
-
   });
 
 
@@ -52,7 +50,7 @@ const ClientSettings = () => {
 
   const [companyData, setCompanyData] = useState({
 
-    companyName: user?.companyName || '',
+    workingProfession: user?.workingProfession || '',
 
     workType: user?.workType || '',
 
@@ -112,13 +110,11 @@ const ClientSettings = () => {
 
         bio: user.bio || '',
 
-        phone: user.phone || '',
-
       });
 
       setCompanyData({
 
-        companyName: user.companyName || '',
+        workingProfession: user.workingProfession || '',
 
         workType: user.workType || '',
 
@@ -388,26 +384,6 @@ const ClientSettings = () => {
 
         </div>
 
-        <div>
-
-          <label className={labelClass}>Phone Number</label>
-
-          <input
-
-            type="tel"
-
-            value={profileData.phone}
-
-            onChange={(e) => setProfileData(prev => ({ ...prev, phone: e.target.value }))}
-
-            className={inputClass}
-
-            placeholder="+1 (555) 123-4567"
-
-          />
-
-        </div>
-
       </div>
 
 
@@ -468,7 +444,7 @@ const ClientSettings = () => {
 
             <Building2 className="inline w-4 h-4 mr-1.5 text-primary-400" />
 
-            Company Name
+            Working Profession
 
           </label>
 
@@ -476,13 +452,13 @@ const ClientSettings = () => {
 
             type="text"
 
-            value={companyData.companyName}
+            value={companyData.workingProfession}
 
-            onChange={(e) => setCompanyData(prev => ({ ...prev, companyName: e.target.value }))}
+            onChange={(e) => setCompanyData(prev => ({ ...prev, workingProfession: e.target.value }))}
 
             className={inputClass}
 
-            placeholder="Enter company name"
+            placeholder="Software Engineer, Freelancer, Student, etc."
 
           />
 

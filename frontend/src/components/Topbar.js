@@ -46,15 +46,15 @@ const EXPERIENCE_LABELS = {
 // ─── Client Profile Details ───────────────────────────────────
 const ClientDetails = ({ user }) => (
   <div className="space-y-2.5">
-    {/* Company */}
-    {user?.companyName && (
+    {/* Working Profession */}
+    {user?.workingProfession && (
       <div className="flex items-center gap-3">
         <div className="w-7 h-7 bg-blue-500/15 rounded-lg flex items-center justify-center flex-shrink-0">
           <Building2 className="w-3.5 h-3.5 text-blue-400" />
         </div>
         <div className="min-w-0">
-          <p className="text-[10px] text-text-muted uppercase tracking-wider leading-none mb-0.5">Company</p>
-          <p className="text-sm text-text-primary font-medium truncate">{user.companyName}</p>
+          <p className="text-[10px] text-text-muted uppercase tracking-wider leading-none mb-0.5">Profession</p>
+          <p className="text-sm text-text-primary font-medium truncate">{user.workingProfession}</p>
         </div>
       </div>
     )}

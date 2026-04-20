@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Briefcase, Eye, EyeOff, Mail, Lock, Plus, X, MapPin, Phone, FileText, ArrowLeft } from 'lucide-react';
+import { User, Briefcase, Eye, EyeOff, Mail, Lock, Plus, X, MapPin, FileText, ArrowLeft } from 'lucide-react';
 import Button from './Button';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -14,10 +14,9 @@ const Login = () => {
     name: '',
     role: 'client',
     // Client specific fields
-    companyName: '',
+    workingProfession: '',
     workType: '',
     location: '',
-    phone: '',
     // Freelancer specific fields
     skills: [],
     experience: '',
@@ -83,8 +82,8 @@ const Login = () => {
     if (!isLogin) {
       // Role-specific validation
       if (formData.role === 'client') {
-        if (!formData.companyName) {
-          newErrors.companyName = 'Company name is required';
+        if (!formData.workingProfession) {
+          newErrors.workingProfession = 'Working profession is required';
         }
         if (!formData.workType) {
           newErrors.workType = 'Work type is required';
@@ -130,10 +129,9 @@ const Login = () => {
           email: savedEmail,
           role: savedRole,
           name: '',
-          companyName: '',
+          workingProfession: '',
           workType: '',
           location: '',
-          phone: '',
           skills: [],
           experience: '',
           portfolio: '',
@@ -240,20 +238,20 @@ const Login = () => {
                 <div>
                   <label className="block text-sm font-medium text-text-secondary mb-2">
                     <Briefcase className="inline w-4 h-4 mr-2" />
-                    Company Name
+                    Working Profession
                   </label>
                   <input
                     type="text"
-                    name="companyName"
-                    value={formData.companyName}
+                    name="workingProfession"
+                    value={formData.workingProfession}
                     onChange={handleInputChange}
                     className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary-500/50 focus:border-transparent bg-dark-secondary text-text-primary placeholder-text-muted ${
-                      errors.companyName ? 'border-red-500' : 'border-gray-700'
+                      errors.workingProfession ? 'border-red-500' : 'border-gray-700'
                     }`}
-                    placeholder="Enter your company name"
+                    placeholder="Software Engineer, Freelancer, Student, etc."
                   />
-                  {errors.companyName && (
-                    <p className="mt-1 text-sm text-red-400">{errors.companyName}</p>
+                  {errors.workingProfession && (
+                    <p className="mt-1 text-sm text-red-400">{errors.workingProfession}</p>
                   )}
                 </div>
 
@@ -298,22 +296,6 @@ const Login = () => {
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 border border-gray-700 rounded-xl bg-dark-secondary text-text-primary placeholder-text-muted focus:ring-2 focus:ring-primary-500/50 focus:border-transparent"
                     placeholder="City, Country"
-                  />
-                </div>
-
-                {/* Phone */}
-                <div>
-                  <label className="block text-sm font-medium text-text-secondary mb-2">
-                    <Phone className="inline w-4 h-4 mr-2" />
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-700 rounded-xl bg-dark-secondary text-text-primary placeholder-text-muted focus:ring-2 focus:ring-primary-500/50 focus:border-transparent"
-                    placeholder="+1 (555) 123-4567"
                   />
                 </div>
               </>

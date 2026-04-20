@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, User, Briefcase, MapPin, Phone, DollarSign, GraduationCap, Plus, X, ArrowRight, Chrome } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User, Briefcase, MapPin, DollarSign, GraduationCap, Plus, X, ArrowRight, Chrome } from 'lucide-react';
 import { useFirebaseAuth } from '../firebase/FirebaseAuthContext';
 
 const RegisterFirebase = () => {
@@ -11,10 +11,9 @@ const RegisterFirebase = () => {
     confirmPassword: '',
     name: '',
     role: 'freelancer',
-    phone: '',
     location: '',
     bio: '',
-    companyName: '',
+    workingProfession: '',
     workType: '',
     skills: [],
     experience: 'beginner',
@@ -94,8 +93,8 @@ const RegisterFirebase = () => {
     
     // Role-specific validations
     if (formData.role === 'client') {
-      if (!formData.companyName) {
-        newErrors.companyName = 'Company name is required for clients';
+      if (!formData.workingProfession) {
+        newErrors.workingProfession = 'Working profession is required for clients';
       }
       if (!formData.workType) {
         newErrors.workType = 'Work type is required for clients';
@@ -124,10 +123,9 @@ const RegisterFirebase = () => {
       const result = await signup(formData.email, formData.password, {
         name: formData.name,
         role: formData.role,
-        phone: formData.phone,
         location: formData.location,
         bio: formData.bio,
-        companyName: formData.companyName,
+        workingProfession: formData.workingProfession,
         workType: formData.workType,
         skills: formData.skills,
         experience: formData.experience,
@@ -371,47 +369,24 @@ const RegisterFirebase = () => {
             </div>
 
             {/* Contact Information */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-text-primary mb-2">
-                  Phone Number
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Phone className="h-4 w-4 text-gray-400" />
-                  </div>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-3 py-3 bg-dark-tertiary border border-gray-600 rounded-xl text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200"
-                    placeholder="+1 (555) 123-4567"
-                    disabled={isLoading}
-                  />
+            <div>
+              <label htmlFor="location" className="block text-sm font-medium text-text-primary mb-2">
+                Location
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <MapPin className="h-4 w-4 text-gray-400" />
                 </div>
-              </div>
-
-              <div>
-                <label htmlFor="location" className="block text-sm font-medium text-text-primary mb-2">
-                  Location
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <MapPin className="h-4 w-4 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-3 py-3 bg-dark-tertiary border border-gray-600 rounded-xl text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200"
-                    placeholder="City, Country"
-                    disabled={isLoading}
-                  />
-                </div>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-3 py-3 bg-dark-tertiary border border-gray-600 rounded-xl text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200"
+                  placeholder="New York, USA"
+                  disabled={isLoading}
+                />
               </div>
             </div>
 
@@ -436,23 +411,23 @@ const RegisterFirebase = () => {
             {formData.role === 'client' ? (
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="companyName" className="block text-sm font-medium text-text-primary mb-2">
-                    Company Name
+                  <label htmlFor="workingProfession" className="block text-sm font-medium text-text-primary mb-2">
+                    Working Profession
                   </label>
                   <input
                     type="text"
-                    id="companyName"
-                    name="companyName"
-                    value={formData.companyName}
+                    id="workingProfession"
+                    name="workingProfession"
+                    value={formData.workingProfession}
                     onChange={handleChange}
                     className={`w-full px-3 py-3 bg-dark-tertiary border rounded-xl text-text-primary placeholder-text-secondary focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all duration-200 ${
-                      errors.companyName ? 'border-red-500' : 'border-gray-600'
+                      errors.workingProfession ? 'border-red-500' : 'border-gray-600'
                     }`}
-                    placeholder="Acme Corporation"
+                    placeholder="Software Engineer, Freelancer, Student, etc."
                     disabled={isLoading}
                   />
-                  {errors.companyName && (
-                    <p className="mt-1 text-sm text-red-400">{errors.companyName}</p>
+                  {errors.workingProfession && (
+                    <p className="mt-1 text-sm text-red-400">{errors.workingProfession}</p>
                   )}
                 </div>
                 <div>
